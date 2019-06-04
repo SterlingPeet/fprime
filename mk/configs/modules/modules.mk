@@ -193,6 +193,22 @@ RPI_MODULES := \
 	\
   	$(UTILS_MODULES)
 
+RobotArm_APP_Modules := 
+
+RobotArm_MODULES := \
+        \
+        $(SVC_MODULES) \
+        \
+        $(LINUX_DRV_MODULES) \
+        \
+        $(CFDP_MODULES) \
+        \
+        $(FW_MODULES) \
+        \
+        $(OS_MODULES) \
+        \
+        $(UTILS_MODULES)
+
 acdev_MODULES := \
 	$(FW_MODULES) \
 	\
@@ -210,5 +226,5 @@ OTHER_MODULES := \
 
 # List deployments
 
-DEPLOYMENTS := Ref acdev RPI
+DEPLOYMENTS := Ref acdev RPI RobotArm
 
