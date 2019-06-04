@@ -5,7 +5,9 @@
 #
 #
 
-SRC = LinuxI2CDriverComponentAi.xml
+SRC = LinuxI2CDriverComponentAi.xml LinuxI2CDriverComponentImpl.cpp
+
+HDR = LinuxI2CDriverComponentImpl.hpp
 
 
 
