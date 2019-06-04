@@ -22,6 +22,10 @@ set(MOD_DEPS
   Fw/Cfg
 )
 register_fprime_module()
+if(${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
+    add_arduino_dependency("Fw_Types")
+endif()
+
 ### UTs ###
 set(UT_SOURCE_FILES
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/TypesTest.cpp"

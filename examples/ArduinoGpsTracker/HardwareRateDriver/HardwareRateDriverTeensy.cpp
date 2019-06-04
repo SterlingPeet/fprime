@@ -2,19 +2,19 @@
 #include <Fw/Types/Assert.hpp>
 #include <examples/ArduinoGpsTracker/HardwareRateDriver/HardwareRateDriver.hpp>
 #include <Arduino.h>
-#include <TimerOne.h>
 
 namespace Arduino {
+IntervalTimer s_itimer;
 
 void HardwareRateDriver::start() {
-    Timer1.initialize(m_interval * 1000);
-    Timer1.attachInterrupt(HardwareRateDriver::s_timerISR);
-    Timer1.start();
+    bool ok = s_itimer.begin(HardwareRateDriver::s_timerISR, m_interval * 1000);
+    if (!ok) {
+        digitalWrite(13, HIGH);
+    }
 }
 
 void HardwareRateDriver::stop() {
-    Timer1.stop();
-    Timer1.detachInterrupt();
+    s_itimer.end();
 }
 
 void HardwareRateDriver::s_timerISR() {
