@@ -86,7 +86,8 @@ LINUX_DRV_MODULES := \
 	Drv/SerialDriverPorts \
 	Drv/SpiDriverPorts \
 	Drv/GpioDriverPorts \
-        Drv/I2CPorts
+        Drv/I2CPorts \
+        Drv/LinuxI2CDriver
 	
 REF_MODULES := \
 	Ref/Top \
