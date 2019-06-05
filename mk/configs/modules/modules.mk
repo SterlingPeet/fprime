@@ -193,7 +193,9 @@ RPI_MODULES := \
 	\
   	$(UTILS_MODULES)
 
-RobotArm_APP_Modules :=
+RobotArm_APP_MODULES := \
+        \
+        PcaServo \
 
 RobotArm_MODULES := \
         \
