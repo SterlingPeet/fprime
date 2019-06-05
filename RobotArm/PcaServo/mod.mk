@@ -1,6 +1,6 @@
-SRC = 	RpiDemoComponentAi.xml \
-		RpiDemoComponentImpl.cpp
-		
-HDR = 	RpiDemoComponentImpl.hpp
-					
+SRC = 	PcaServoComponentAi.xml \
+		PcaServoComponentImpl.cpp
+
+HDR = 	PcaServoComponentImpl.hpp
+
 

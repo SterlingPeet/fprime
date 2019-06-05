@@ -6,7 +6,7 @@
    Note  kind attribute of component can be ether active or passive.
          -->
 <?xml-model href="../../schema/ISF/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<component name="RpiDemo" kind="active" namespace="Rpi">
+<component name="PcaServo" kind="active" namespace="RobotArm">
     <import_port_type>Drv/SpiDriverPorts/SpiReadWritePortAi.xml</import_port_type>
 
     <comment>Servo Driver component to convert desired positions/angles to the PWM chip's input format.</comment>
