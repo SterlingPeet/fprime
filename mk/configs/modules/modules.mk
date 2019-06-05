@@ -23,19 +23,19 @@ FW_GTEST_MODULES := \
 	Fw/SerializableFile/test/TestSerializable \
 	Fw/FilePacket/GTest \
 	Fw/Types/GTest
-	
+
 OS_MODULES := \
-	Os 
+	Os
 
 CFDP_MODULES := \
 	CFDP/Checksum
 
 CFDP_GTEST_MODULES := \
 	CFDP/Checksum/GTest
-	
+
 UTILS_MODULES := \
 	Utils/Hash
-        
+
 SVC_MODULES := \
 	Svc/BufferAccumulator \
 	Svc/BufferLogger \
@@ -72,13 +72,13 @@ SVC_MODULES := \
 	Svc/FileManager \
 	Svc/UdpSender \
 	Svc/UdpReceiver
-	
+
 
 DEMO_DRV_MODULES := \
 	Drv/DataTypes \
 	Drv/BlockDriver \
 	Drv/GpioDriverPorts
-		
+
 LINUX_DRV_MODULES := \
 	Drv/LinuxGpioDriver \
 	Drv/LinuxSerialDriver \
@@ -88,14 +88,14 @@ LINUX_DRV_MODULES := \
 	Drv/GpioDriverPorts \
         Drv/I2CPorts \
         Drv/LinuxI2CDriver
-	
+
 REF_MODULES := \
 	Ref/Top \
 	Ref/RecvBuffApp \
 	Ref/SendBuffApp \
 	Ref/SignalGen \
 	Ref/PingReceiver
-	
+
 Ref_MODULES := \
 	\
 	$(REF_MODULES) \
@@ -111,7 +111,7 @@ Ref_MODULES := \
 	$(CFDP_MODULES) \
   	\
   	$(UTILS_MODULES)
-		
+
 ACDEVTEST_MODULES := \
 	Autocoders/Python/test/active_tester \
 	Autocoders/Python/test/app1 \
@@ -172,11 +172,11 @@ ACDEVTEST_MODULES := \
 	Autocoders/Python/test/serial_passive \
     \
 	Autocoders/Python/templates
-	
+
 RPI_APP_MODULES := \
 	RPI/Top \
 	RPI/RpiDemo
-	
+
 RPI_MODULES := \
 	\
 	$(RPI_APP_MODULES) \
@@ -193,7 +193,7 @@ RPI_MODULES := \
 	\
   	$(UTILS_MODULES)
 
-RobotArm_APP_Modules := 
+RobotArm_APP_Modules :=
 
 RobotArm_MODULES := \
         \
@@ -215,8 +215,8 @@ acdev_MODULES := \
 	$(OS_MODULES) \
 	\
 	$(ACDEVTEST_MODULES)
-	
-	
+
+
 # Other modules to build, but not to link with deployment binaries
 OTHER_MODULES := \
 	gtest \
