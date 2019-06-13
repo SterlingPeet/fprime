@@ -86,8 +86,8 @@ LINUX_DRV_MODULES := \
 	Drv/SerialDriverPorts \
 	Drv/SpiDriverPorts \
 	Drv/GpioDriverPorts \
-        Drv/I2CPorts \
-        Drv/LinuxI2CDriver
+    Drv/I2CPorts \
+    Drv/LinuxI2CDriver
 
 REF_MODULES := \
 	Ref/Top \
@@ -194,22 +194,23 @@ RPI_MODULES := \
   	$(UTILS_MODULES)
 
 RobotArm_APP_MODULES := \
-        \
-        PcaServo \
+	RobotArm/ServoPorts
 
 RobotArm_MODULES := \
-        \
-        $(SVC_MODULES) \
-        \
-        $(LINUX_DRV_MODULES) \
-        \
-        $(CFDP_MODULES) \
-        \
-        $(FW_MODULES) \
-        \
-        $(OS_MODULES) \
-        \
-        $(UTILS_MODULES)
+	\
+	$(RobotArm_APP_MODULES) \
+	\
+	$(SVC_MODULES) \
+	\
+	$(LINUX_DRV_MODULES) \
+	\
+	$(CFDP_MODULES) \
+  	\
+	$(FW_MODULES) \
+	\
+	$(OS_MODULES) \
+	\
+  	$(UTILS_MODULES)
 
 acdev_MODULES := \
 	$(FW_MODULES) \
