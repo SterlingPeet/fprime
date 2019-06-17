@@ -5,7 +5,7 @@
          Only valid for active components input.
    Note  kind attribute of component can be ether active or passive.
          -->
-<?xml-model href="../../schema/ISF/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../Autocoders/Python/schema/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <component name="PcaServo" kind="passive" namespace="RobotArm">
     <import_port_type>RobotArm/ServoPorts/ServoPortAi.xml</import_port_type>
     <import_port_type>Drv/I2CPorts/I2CPortAi.xml</import_port_type>
