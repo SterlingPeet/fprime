@@ -95,10 +95,10 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_ASM_COMPILER} -c <SOURCE> -o <OBJECT> <FLA
 set(CMAKE_C_COMPILE_OBJECT   "${CMAKE_C_COMPILER}   -c <SOURCE> -o <OBJECT> <FLAGS> <INCLUDES>" CACHE STRING "C to o")
 
 # Glob up all the files for the Arduino lib build
-file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S")
-set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
+file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" "${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/*.h")
+# set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
 if (NOT ARDUINO_SRC STREQUAL "")
-    set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Teensy's Arduino Sources")
+    set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Mega's Arduino Sources")
 endif()
 
 message(STATUS "ARDUINO_SRC: ${ARDUINO_SRC}")
