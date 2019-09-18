@@ -54,18 +54,6 @@
 add_definitions(-DTGT_OS_TYPE_BAREMETAL)
 
 # STEP 3: Specify CMAKE C and CXX compile flags. DO NOT clear existing flags
-set(AVR_MCU
-  "atmega2560"
-)
-set(AVR_COMMON
-  "-mmcu=${AVR_MCU} -Wall -Wextra -g -Os -MMD -ffunction-sections -fdata-sections"
-)
-set(CMAKE_C_FLAGS
- "${CMAKE_C_FLAGS} ${AVR_COMMON} -std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes"
-)
-set(CMAKE_CXX_FLAGS
- "${CMAKE_CXX_FLAGS} ${AVR_COMMON} -std=c++11"
-)
 
 # STEP 4: Specify that a thread package should be searched in the toolchain
 #         directory. NOTE: when running without threads, remove this line.
