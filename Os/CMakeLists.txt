@@ -209,6 +209,11 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Teensyduino")
     get_module_name(${CMAKE_CURRENT_LIST_DIR})
     add_arduino_dependency("${MODULE_NAME}")
 endif()
+# Teensyduino additions
+if(${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
+    get_module_name(${CMAKE_CURRENT_LIST_DIR})
+    add_arduino_dependency("${MODULE_NAME}")
+endif()
 # Add stubs directory for testing builds
 if (CMAKE_BUILD_TYPE STREQUAL "TESTING")
     add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Stubs/")

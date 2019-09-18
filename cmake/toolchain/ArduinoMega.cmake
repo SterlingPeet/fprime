@@ -44,7 +44,7 @@ SET(ARDUINO_SDK_PATH "/opt/arduino-1.8.9" CACHE PATH "Path to Arduino SDK")
 SET(ARDUINO_VERSION "ATmega2560" CACHE STRING "Version of ARDUINO to use")
 SET(ARDUINO_CORE_DIR "arduino")
 include("${CMAKE_CURRENT_LIST_DIR}/ArduinoSupport/${ARDUINO_VERSION}.cmake")
-set(TEENSY_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores/${ARDUINO_CORE_DIR}" CACHE PATH "arduino SRC")
+set(ARDUINO_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores/${ARDUINO_CORE_DIR}" CACHE PATH "arduino SRC")
 
 message(STATUS "Arduino SDK path:  ${ARDUINO_SDK_PATH}")
 message(STATUS "Teensy Version:    ${ARDUINO_VERSION}; ${ARDUINO_CORE_DIR}")
@@ -74,8 +74,8 @@ set(CMAKE_SIZE         "${ARDUINO_TOOLS_PATH}/avr-size${TOOL_SUFFIX}"        CAC
 set(CMAKE_RANLIB       "${ARDUINO_TOOLS_PATH}/avr-gcc-ranlib${TOOL_SUFFIX}"  CACHE PATH "ranlib"    FORCE)
 
 # Teensy common defines
-set(ARDUINO_DEF "-DF_CPU=${ARDUINO_FREQ} -DUSB_SERIAL -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE -D__${ARDUINO_CPU_ARCH}__")
-set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
+set(ARDUINO_DEF "-DF_CPU=${ARDUINO_FREQ}") # " -DUSB_SERIAL -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE -D__${ARDUINO_CPU_ARCH}__")
+# set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
 # Teensy flags for each language
 set(ARDUINO_COM "-Wall -g -Os -MMD -ffunction-sections -fdata-sections")
 set(ARDUINO_CPU "-mmcu=${ARDUINO_CPU_ARCH} ${ARDUINO_CPU_FLAGS}")
@@ -95,10 +95,14 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_ASM_COMPILER} -c <SOURCE> -o <OBJECT> <FLA
 set(CMAKE_C_COMPILE_OBJECT   "${CMAKE_C_COMPILER}   -c <SOURCE> -o <OBJECT> <FLAGS> <INCLUDES>" CACHE STRING "C to o")
 
 # Glob up all the files for the Arduino lib build
-file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S")
-# if (NOT ARDUINO_SRC STREQUAL "")
-#     set(TEENSY_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Teensy's Arduino Sources")
-# endif()
+file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S")
+set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
+if (NOT ARDUINO_SRC STREQUAL "")
+    set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Teensy's Arduino Sources")
+endif()
+
+message(STATUS "ARDUINO_SRC: ${ARDUINO_SRC}")
+# message(STATUS "ARDUINO_ARDUINO_SRC: ${ARDUINO_ARDUINO_SRC}")
 ####
 # add_arduino_dependency:
 #
