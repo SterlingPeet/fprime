@@ -6,11 +6,11 @@
 
 namespace Svc {
 
-#if FW_OBJECT_NAMES == 1    
-    RateGroupDriverImpl::RateGroupDriverImpl(const char* compName, I32 dividers[], I32 numDividers) :
+#if FW_OBJECT_NAMES == 1
+    RateGroupDriverImpl::RateGroupDriverImpl(const char* compName, NATIVE_INT_TYPE dividers[], NATIVE_INT_TYPE numDividers) :
         RateGroupDriverComponentBase(compName),
 #else
-    RateGroupDriverImpl::RateGroupDriverImpl(I32 dividers[], I32 numDividers) :
+    RateGroupDriverImpl::RateGroupDriverImpl(NATIVE_INT_TYPE dividers[], NATIVE_INT_TYPE numDividers) :
 #endif
     m_ticks(0),m_rollover(1)
     {
