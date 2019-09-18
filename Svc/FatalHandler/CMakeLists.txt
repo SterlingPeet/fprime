@@ -9,7 +9,7 @@
 set(SOURCE_FILES
   "${CMAKE_CURRENT_LIST_DIR}/FatalHandlerComponentAi.xml"
   "${CMAKE_CURRENT_LIST_DIR}/FatalHandlerComponentCommonImpl.cpp"
-  "${CMAKE_CURRENT_LIST_DIR}/FatalHandlerComponentLinuxImpl.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/FatalHandlerComponentBaremetalImpl.cpp"
 )
 set(MOD_DEPS
   Fw/Logger
