@@ -8,7 +8,6 @@
 #include <Fw/Types/BasicTypes.hpp>
 #include <Fw/Types/SerialBuffer.hpp>
 #include <Os/ValidateFile.hpp>
-#include <iostream>
 #include <stdio.h>
 
 using namespace std;
@@ -16,18 +15,18 @@ using namespace std;
 namespace Svc {
 
   // ----------------------------------------------------------------------
-  // Construction, initialization, and destruction 
+  // Construction, initialization, and destruction
   // ----------------------------------------------------------------------
 
   ComLogger ::
 #if FW_OBJECT_NAMES == 1
     ComLogger(const char* compName, const char* incomingFilePrefix, U32 maxFileSize, bool storeBufferLength) :
-    ComLoggerComponentBase(compName), 
+    ComLoggerComponentBase(compName),
 #else
     ComLogger(const char* incomingFilePrefix, U32 maxFileSize, bool storeBufferLength) :
 #endif
     maxFileSize(maxFileSize),
-    fileMode(CLOSED), 
+    fileMode(CLOSED),
     byteCount(0),
     writeErrorOccured(false),
     openErrorOccured(false),
