@@ -43,8 +43,10 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY" CACHE STRING "Try Static Lib 
 SET(ARDUINO_SDK_PATH "/opt/arduino-1.8.9" CACHE PATH "Path to Arduino SDK")
 SET(ARDUINO_VERSION "ATmega2560" CACHE STRING "Version of ARDUINO to use")
 SET(ARDUINO_CORE_DIR "arduino")
+SET(ARDUINO_VARIANT_DIR "mega")
 include("${CMAKE_CURRENT_LIST_DIR}/ArduinoSupport/${ARDUINO_VERSION}.cmake")
 set(ARDUINO_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores/${ARDUINO_CORE_DIR}" CACHE PATH "arduino SRC")
+set(ARDUINO_VARIANT_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/${ARDUINO_VARIANT_DIR}")
 
 message(STATUS "Arduino SDK path:  ${ARDUINO_SDK_PATH}")
 message(STATUS "Teensy Version:    ${ARDUINO_VERSION}; ${ARDUINO_CORE_DIR}")
@@ -95,7 +97,7 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_ASM_COMPILER} -c <SOURCE> -o <OBJECT> <FLA
 set(CMAKE_C_COMPILE_OBJECT   "${CMAKE_C_COMPILER}   -c <SOURCE> -o <OBJECT> <FLAGS> <INCLUDES>" CACHE STRING "C to o")
 
 # Glob up all the files for the Arduino lib build
-file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" "${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/*.h")
+file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" )
 # set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
 if (NOT ARDUINO_SRC STREQUAL "")
     set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Mega's Arduino Sources")
@@ -117,6 +119,7 @@ function(add_arduino_dependency target)
         add_library("arduinocore" ${ARDUINO_SRC} ${ARDUINO_SHIM_SOURCES})
         target_link_libraries("arduinocore" "m" "stdc++" ${ARDUINO_LIBS})
         target_include_directories("arduinocore" PUBLIC ${ARDUINO_SRC_DIR})
+        target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
     endif()
 
 
@@ -124,6 +127,7 @@ function(add_arduino_dependency target)
     add_dependencies(${target} "arduinocore")
     target_link_libraries(${target} "arduinocore" "m" "stdc++")
     target_include_directories(${target} PUBLIC ${ARDUINO_SRC_DIR})
+    target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
     # Check if executable
     get_target_property(target_type ${target} TYPE)
     if (target_type STREQUAL "EXECUTABLE")
