@@ -78,4 +78,4 @@ set(CMAKE_CXX_FLAGS
 #         standard types from <stdint.h>.
 
 #  LINUX REFERENCSE stdint.h DIRECTLY
-include_directories(SYSTEM "${FPRIME_CORE_DIR}/Fw/Types/Arduino")
+include_directories(SYSTEM "${FPRIME_CORE_DIR}/Fw/Types/AVR")
