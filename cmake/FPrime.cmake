@@ -76,5 +76,5 @@ register_fprime_target("${CMAKE_CURRENT_LIST_DIR}/target/testimpl.cmake")
 include_directories(SYSTEM "${FPRIME_CORE_DIR}")
 # Ignore GTest for non-test builds
 if (${CMAKE_BUILD_TYPE} STREQUAL "TESTING")
-    include_directories(SYSTEM "${FPRIME_CORE_DIR}/gtest/include")
+    include_directories("${FPRIME_CORE_DIR}/gtest/include")
 endif()
