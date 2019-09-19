@@ -11,7 +11,7 @@ set(SOURCE_FILES
 )
 # Teensyduino additions
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Teensyduino")
-    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/HardwareRateDriverArduino.cpp")
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/HardwareRateDriverTeensy.cpp")
 # Teensyduino additions
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/HardwareRateDriverArduino.cpp")
