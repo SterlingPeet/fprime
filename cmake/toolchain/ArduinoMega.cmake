@@ -81,7 +81,7 @@ set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
 # Teensy flags for each language
 set(ARDUINO_COM "-Wall -g -Os -MMD -ffunction-sections -fdata-sections")
 set(ARDUINO_CPU "-mmcu=${ARDUINO_CPU_ARCH} ${ARDUINO_CPU_FLAGS}")
-set(ARDUINO_CPP "-std=gnu++14 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing")
+set(ARDUINO_CPP "-std=gnu++11 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing")
 set(ARDUINO_ASM "-x assembler-with-cpp")
 # set(ARDUINO_LD  "-T${ARDUINO_SRC_DIR}/${MCU_LD} -Wl,--gc-sections,--defsym=__rtc_localtime=0") #TODO: fix this time
 
