@@ -117,7 +117,7 @@ function(add_arduino_dependency target)
     # Build the Arduino core library for Teensy
     if (NOT TARGET "arduinocore")
         add_library("arduinocore" ${ARDUINO_SRC} ${ARDUINO_SHIM_SOURCES})
-        target_link_libraries("arduinocore" "m" "stdc++" ${ARDUINO_LIBS})
+        target_link_libraries("arduinocore" "m" ${ARDUINO_LIBS})
         target_include_directories("arduinocore" PUBLIC ${ARDUINO_SRC_DIR})
         target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
         target_include_directories("arduinocore" PUBLIC "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/")
@@ -126,7 +126,7 @@ function(add_arduino_dependency target)
 
     # Add a dependency on the teensycore (Arduino framework build) to the target
     add_dependencies(${target} "arduinocore")
-    target_link_libraries(${target} "arduinocore" "m" "stdc++")
+    target_link_libraries(${target} "arduinocore" "m" )
     target_include_directories(${target} PUBLIC ${ARDUINO_SRC_DIR})
     target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
     target_include_directories("arduinocore" PUBLIC "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/")
