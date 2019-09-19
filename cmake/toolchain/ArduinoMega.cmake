@@ -77,13 +77,13 @@ set(CMAKE_RANLIB       "${ARDUINO_TOOLS_PATH}/avr-gcc-ranlib${TOOL_SUFFIX}"  CAC
 
 # Teensy common defines
 set(ARDUINO_DEF "-DF_CPU=${ARDUINO_FREQ}") # " -DUSB_SERIAL -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE -D__${ARDUINO_CPU_ARCH}__")
-# set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
+set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
 # Teensy flags for each language
 set(ARDUINO_COM "-Wall -g -Os -MMD -ffunction-sections -fdata-sections")
 set(ARDUINO_CPU "-mmcu=${ARDUINO_CPU_ARCH} ${ARDUINO_CPU_FLAGS}")
 set(ARDUINO_CPP "-std=gnu++14 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing")
 set(ARDUINO_ASM "-x assembler-with-cpp")
-set(ARDUINO_LD  "-T${ARDUINO_SRC_DIR}/${MCU_LD} -Wl,--gc-sections,--defsym=__rtc_localtime=0") #TODO: fix this time
+# set(ARDUINO_LD  "-T${ARDUINO_SRC_DIR}/${MCU_LD} -Wl,--gc-sections,--defsym=__rtc_localtime=0") #TODO: fix this time
 
 # Set the tool and language flags
 set(CMAKE_C_FLAGS   "${ARDUINO_CPU} ${ARDUINO_COM} ${ARDUINO_DEF}"                CACHE STRING "C_FLAGS")
@@ -97,13 +97,13 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_ASM_COMPILER} -c <SOURCE> -o <OBJECT> <FLA
 set(CMAKE_C_COMPILE_OBJECT   "${CMAKE_C_COMPILER}   -c <SOURCE> -o <OBJECT> <FLAGS> <INCLUDES>" CACHE STRING "C to o")
 
 # Glob up all the files for the Arduino lib build
-file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" )
+file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/*.cpp" "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/*.h")
 # set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
 if (NOT ARDUINO_SRC STREQUAL "")
     set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Mega's Arduino Sources")
 endif()
 
-message(STATUS "ARDUINO_SRC: ${ARDUINO_SRC}")
+# message(STATUS "ARDUINO_SRC: ${ARDUINO_SRC}")
 # message(STATUS "ARDUINO_ARDUINO_SRC: ${ARDUINO_ARDUINO_SRC}")
 ####
 # add_arduino_dependency:
@@ -120,6 +120,7 @@ function(add_arduino_dependency target)
         target_link_libraries("arduinocore" "m" "stdc++" ${ARDUINO_LIBS})
         target_include_directories("arduinocore" PUBLIC ${ARDUINO_SRC_DIR})
         target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
+        target_include_directories("arduinocore" PUBLIC "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/")
     endif()
 
 
@@ -128,6 +129,7 @@ function(add_arduino_dependency target)
     target_link_libraries(${target} "arduinocore" "m" "stdc++")
     target_include_directories(${target} PUBLIC ${ARDUINO_SRC_DIR})
     target_include_directories("arduinocore" PUBLIC ${ARDUINO_VARIANT_SRC_DIR})
+    target_include_directories("arduinocore" PUBLIC "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/")
     # Check if executable
     get_target_property(target_type ${target} TYPE)
     if (target_type STREQUAL "EXECUTABLE")
