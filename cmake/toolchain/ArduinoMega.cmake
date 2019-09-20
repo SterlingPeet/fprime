@@ -1,7 +1,7 @@
 # Set system name
 set(CMAKE_SYSTEM_NAME "ArduinoMega")
 
-# # Location of pi toolchain
+# # Location of avr toolchain (ubuntu packaged version)
 # set(AVR_TOOLCHAIN "/usr")
 
 # # specify the cross compiler
@@ -11,26 +11,6 @@ set(CMAKE_SYSTEM_NAME "ArduinoMega")
 # # where is the target environment
 # set(CMAKE_FIND_ROOT_PATH  "${AVR_TOOLCHAIN}/lib/avr")
 
-# # search for programs in the build host directories
-# set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-# # for libraries and headers in the target directories
-# set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-# set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-# set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
-
-
-# set(AVR_MCU
-#   "atmega2560"
-# )
-# set(AVR_COMMON
-#   "-mmcu=${AVR_MCU} -Wall -Wextra -g -Os -MMD -ffunction-sections -fdata-sections"
-# )
-# set(CMAKE_C_FLAGS
-#  "${CMAKE_C_FLAGS} ${AVR_COMMON} -std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes"
-# )
-# set(CMAKE_CXX_FLAGS
-#  "${CMAKE_CXX_FLAGS} ${AVR_COMMON} -std=c++11"
-# )
 
 set(CMAKE_SYSTEM_PROCESSOR avr)
 set(CMAKE_CROSSCOMPILING 1)
@@ -81,15 +61,16 @@ set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
 # Teensy flags for each language
 set(ARDUINO_COM "-Wall -g -Os -MMD -ffunction-sections -fdata-sections")
 set(ARDUINO_CPU "-mmcu=${ARDUINO_CPU_ARCH} ${ARDUINO_CPU_FLAGS}")
+set(ARDUINO_C   "-std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes")
 set(ARDUINO_CPP "-std=gnu++11 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing")
 set(ARDUINO_ASM "-x assembler-with-cpp")
 # set(ARDUINO_LD  "-T${ARDUINO_SRC_DIR}/${MCU_LD} -Wl,--gc-sections,--defsym=__rtc_localtime=0") #TODO: fix this time
 
 # Set the tool and language flags
-set(CMAKE_C_FLAGS   "${ARDUINO_CPU} ${ARDUINO_COM} ${ARDUINO_DEF}"                CACHE STRING "C_FLAGS")
+set(CMAKE_C_FLAGS   "${ARDUINO_CPU} ${ARDUINO_COM} ${ARDUINO_DEF} ${ARDUINO_C}"   CACHE STRING "C_FLAGS")
 set(CMAKE_CXX_FLAGS "${ARDUINO_CPU} ${ARDUINO_COM} ${ARDUINO_DEF} ${ARDUINO_CPP}" CACHE STRING "CXX_FLAGS")
 set(CMAKE_ASM_FLAGS "${ARDUINO_CPU} ${ARDUINO_COM} ${ARDUINO_DEF} ${ARDUINO_ASM}" CACHE STRING "ASM_FLAGS")
-set(CMAKE_EXE_LINKER_FLAGS "${ARDUINO_CPU} ${ARDUINO_LD}"                      CACHE STRING "LD_FLAGS")
+set(CMAKE_EXE_LINKER_FLAGS "${ARDUINO_CPU} ${ARDUINO_LD}"                         CACHE STRING "LD_FLAGS")
 
 # Calls into the compiler
 set(CMAKE_CXX_COMPILE_OBJECT "${CMAKE_CXX_COMPILER} -c <SOURCE> -o <OBJECT> <FLAGS> <INCLUDES>" CACHE STRING "C++ to o")
@@ -98,13 +79,10 @@ set(CMAKE_C_COMPILE_OBJECT   "${CMAKE_C_COMPILER}   -c <SOURCE> -o <OBJECT> <FLA
 
 # Glob up all the files for the Arduino lib build
 file(GLOB ARDUINO_SRC "${ARDUINO_SRC_DIR}/*.cpp" "${ARDUINO_SRC_DIR}/*.h" "${ARDUINO_SRC_DIR}/*.c" "${ARDUINO_SRC_DIR}/*.S" "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/*.cpp" "${ARDUINO_SDK_PATH}/hardware/teensy/avr/libraries/TimerOne/*.h")
-# set(ARDUINO_SRC "${ARDUINO_SRC};${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/mega/pin_definitions.h")
 if (NOT ARDUINO_SRC STREQUAL "")
     set(ARDUINO_ARDUINO_SRC ${ARDUINO_SRC} CACHE STRING "Mega's Arduino Sources")
 endif()
 
-# message(STATUS "ARDUINO_SRC: ${ARDUINO_SRC}")
-# message(STATUS "ARDUINO_ARDUINO_SRC: ${ARDUINO_ARDUINO_SRC}")
 ####
 # add_arduino_dependency:
 #
