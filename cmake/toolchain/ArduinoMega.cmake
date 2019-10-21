@@ -61,8 +61,11 @@ set(ARDUINO_DEF "${ARDUINO_DEF} -DARDUINO=${ARDUINO_ARDUINO_NUM}")
 # Teensy flags for each language
 set(ARDUINO_COM "-Wall -g -Os -MMD -ffunction-sections -fdata-sections")
 set(ARDUINO_CPU "-mmcu=${ARDUINO_CPU_ARCH} ${ARDUINO_CPU_FLAGS}")
-set(ARDUINO_C   "-std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes")
-set(ARDUINO_CPP "-std=gnu++11 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing")
+# https://www.microchip.com/webdoc/AVRLibcReferenceManual/malloc_1malloc_tunables.html
+# set(ARDUINO_C   "-std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes -flto -Wl,--section-start,.data=0x802200,--defsym=__heap_end=0x80ffff")
+# set(ARDUINO_CPP "-std=gnu++11 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing -flto -Wl,--section-start,.data=0x802200,--defsym=__heap_end=0x80ffff")
+set(ARDUINO_C   "-std=c99 -pedantic -Werror-implicit-function-declaration -Wstrict-prototypes -flto")
+set(ARDUINO_CPP "-std=gnu++11 -fno-exceptions -fpermissive -fno-rtti -felide-constructors -Wno-error=narrowing -flto")
 set(ARDUINO_ASM "-x assembler-with-cpp")
 # set(ARDUINO_LD  "-T${ARDUINO_SRC_DIR}/${MCU_LD} -Wl,--gc-sections,--defsym=__rtc_localtime=0") #TODO: fix this time
 
