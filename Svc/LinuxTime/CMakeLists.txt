@@ -6,9 +6,24 @@
 #
 # Note: using PROJECT_NAME as EXECUTABLE_NAME
 ####
-set(SOURCE_FILES
-  "${CMAKE_CURRENT_LIST_DIR}/LinuxTimeImpl.cpp"
-)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "AVR")
+  set(SOURCE_FILES "${SOURCE_FILES}"
+    "${CMAKE_CURRENT_LIST_DIR}/AVRTimeImpl.cpp"
+  )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(SOURCE_FILES "${SOURCE_FILES}"
+    "${CMAKE_CURRENT_LIST_DIR}/DarwinTimeImpl.cpp"
+  )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "VxWorks")
+  set(SOURCE_FILES "${SOURCE_FILES}"
+    "${CMAKE_CURRENT_LIST_DIR}/VxWorksTimeImpl.cpp"
+  )
+else()
+  set(SOURCE_FILES "${SOURCE_FILES}"
+    "${CMAKE_CURRENT_LIST_DIR}/LinuxTimeImpl.cpp"
+  )
+endif()
+
 set(MOD_DEPS
   Svc/Time
 )
