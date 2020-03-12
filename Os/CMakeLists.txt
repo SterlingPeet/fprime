@@ -146,6 +146,23 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "AVR")
         "${CMAKE_CURRENT_LIST_DIR}/Pthreads/FIFOBufferQueue.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/AVR/IntervalTimer.cpp"
     )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+    set(SOURCE_FILES
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/Task.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/TaskCommon.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/TaskString.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/File.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/FileSystem.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/IntervalTimer.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/Mutex.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Baremetal/Queue.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/QueueCommon.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/QueueString.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Pthreads/BufferQueueCommon.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Pthreads/FIFOBufferQueue.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Arduino/IntervalTimer.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Arduino/StreamLog.cpp"
+    )
 else()
   # Default Linux
   set(SOURCE_FILES
@@ -189,7 +206,14 @@ if (BAREMETAL_SCHEDULER)
     list(FILTER SOURCE_FILES EXCLUDE REGEX "Task\.cpp")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/Baremetal/Task.cpp")
 endif()
+
 register_fprime_module()
+
+# Arduino additions
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+    get_module_name(${CMAKE_CURRENT_LIST_DIR})
+    add_arduino_dependency("${MODULE_NAME}")
+endif()
 
 # Add stubs directory for testing builds
 if (CMAKE_BUILD_TYPE STREQUAL "TESTING")
