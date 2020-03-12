@@ -10,6 +10,10 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "AVR")
   set(SOURCE_FILES "${SOURCE_FILES}"
     "${CMAKE_CURRENT_LIST_DIR}/AVRTimeImpl.cpp"
   )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+  set(SOURCE_FILES "${SOURCE_FILES}"
+      "${CMAKE_CURRENT_LIST_DIR}/ArduinoTimeImpl.cpp"
+  )
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   set(SOURCE_FILES "${SOURCE_FILES}"
     "${CMAKE_CURRENT_LIST_DIR}/DarwinTimeImpl.cpp"
@@ -29,6 +33,12 @@ set(MOD_DEPS
 )
 
 register_fprime_module()
+# Add Teensyduino dependency
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+    get_module_name(${CMAKE_CURRENT_LIST_DIR})
+    add_arduino_dependency("${MODULE_NAME}")
+endif()
+
 ### UTs ###
 set(UT_SOURCE_FILES
   "${FPRIME_CORE_DIR}/Svc/Time/TimeComponentAi.xml"
