@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../Autocoders/Python/schema/ISF/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+
+<component name="ATmegaI2cDriver" kind="passive" namespace="Drv" modeler="true">
+
+    <import_port_type>Drv/I2cDriverPorts/I2cWriteReadPortAi.xml</import_port_type>
+    
+    <ports>
+        <port name="i2cTransaction" data_type="Drv::I2cWriteRead"  kind="sync_input"    max_number="1">
+        </port>
+    </ports>
+
+</component>
