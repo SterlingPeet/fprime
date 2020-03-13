@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../Autocoders/Python/schema/ISF/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+
+<component name="ATmegaSerialDriver" kind="passive" namespace="Drv" modeler="true">
+    <import_port_type>Drv/SerialDriverPorts/SerialReadPortAi.xml</import_port_type>
+    <import_port_type>Drv/SerialDriverPorts/SerialWritePortAi.xml</import_port_type>
+    <ports>
+        <port name="serialRecv" data_type="Drv::SerialRead"  kind="sync_input"    max_number="2">
+        </port>
+        <port name="serialSend" data_type="Drv::SerialWrite"  kind="sync_input"    max_number="2">
+        </port>
+    </ports>
+</component>
