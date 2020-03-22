@@ -18,7 +18,8 @@ set(MOD_DEPS
   Fw/Port
 )
 # For shared libraries, Os must exist in the module list
-if (BUILD_SHARED_LIBS)
+# Also, AVR platform needs it
+if (BUILD_SHARED_LIBS OR CMAKE_SYSTEM_PROCESSOR STREQUAL "avr")
     list(APPEND MOD_DEPS "Os")
 endif()
 register_fprime_module()
