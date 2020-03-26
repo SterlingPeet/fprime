@@ -2,6 +2,7 @@
 #ifdef ARDUINO
     #include <Os/Arduino/StreamLog.hpp>
     #include <Arduino.h>
+    #include <Os/AVR/XMem.hpp>
 #else
     #include <examples/ArduinoGpsTracker/SerialDriver/SerialDriver.hpp>
 #endif
