@@ -27,6 +27,8 @@ int main(int argc, char* argv[]) {
     delay(100);
     digitalWrite(13, LOW);
     delay(600);
+#else
+    printf("About to constructApp...   ");
 #endif
     constructApp();
 #ifndef ARDUINO

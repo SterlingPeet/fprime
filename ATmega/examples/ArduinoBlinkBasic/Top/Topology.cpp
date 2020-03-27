@@ -50,6 +50,9 @@ Os::TaskRunner taskRunner;
  * memory can be acquired here, but should not be created at a later point.
  */
 void constructApp() {
+#ifndef ARDUINO
+    printf("Constructing the App.\n");
+#endif
     // Initialize rate group driver
     rateGroupDriverComp.init();
 
@@ -61,24 +64,35 @@ void constructApp() {
     ledBlinker.init(0);
 
     ledGpio.init(0);
-// #ifdef COMM_SERIAL
-//     comm.init(0, 115200);
-// #else
-//     comm.init(0);
-// #endif
 
+#ifndef ARDUINO
+    printf("Constructing Architecture.\n");
+#endif
     // Callback to initialize architecture, connect ports, etc.
     constructArduinoArchitecture();
 
+#ifndef ARDUINO
+    printf("Setting up ledGpio.\n");
+#endif
     // configure things
     ledGpio.setup(DDRB, PORTB, PB7, Drv::ATmegaGpioDriverComponentImpl::GPIO_OUT);
 
+#ifndef ARDUINO
+    printf("Starting HardwareRateDriver.\n");
+#endif
     hardwareRateDriver.start();
+
     // Start all active components' tasks thus finishing the setup portion of this code
+#ifndef ARDUINO
+    printf("Starting ActiveRateGroup.\n");
+#endif
     rateGroup10HzComp.start(0, 120, 10 * 1024);
     // rateGroup1HzComp.start(0, 119, 10 * 1024);
 
     // Start the task for the rate group
+#ifndef ARDUINO
+    printf("Starting TaskRunner.\n");
+#endif
     taskRunner.run();
 }
 /**
