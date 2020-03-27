@@ -3,8 +3,8 @@
     #include <Os/Arduino/StreamLog.hpp>
     #include <Arduino.h>
     #include <Os/AVR/XMem.hpp>
-#else
-    #include <examples/ArduinoGpsTracker/SerialDriver/SerialDriver.hpp>
+// #else
+//     #include <examples/ArduinoGpsTracker/SerialDriver/SerialDriver.hpp>
 #endif
 
 #define STARTUP_DELAY_MS 2000
@@ -13,9 +13,9 @@
  * Main function.
  */
 int main(int argc, char* argv[]) {
+#ifdef ARDUINO
     init();
     // initVariant();  // Seems to cause main() duplicate to show up...
-#ifdef ARDUINO
     delay(STARTUP_DELAY_MS);
     // Two quick flashes for viz indication
     pinMode(13, OUTPUT);

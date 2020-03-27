@@ -6,7 +6,13 @@
 #include <Fw/Types/MallocAllocator.hpp>
 #include <ATmega/examples/ArduinoBlinkBasic/Top/ArduinoSchedContexts.hpp>
 #include <Drv/ATmegaGpioDriver/ATmegaGpioDriverComponentImpl.hpp>
-#include <avr/io.h>
+#ifdef ARDUINO
+    #include <avr/io.h>
+#else
+    volatile uint8_t DDRB = 2;
+    volatile uint8_t PORTB = 2;
+    #define PB7 7
+#endif
 #include "Components.hpp"
 
 // Setup the rate group driver used to drive all the ActiveRateGroups connected to it.
