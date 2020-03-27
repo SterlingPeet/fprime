@@ -39,8 +39,8 @@ include("${CMAKE_CURRENT_LIST_DIR}/../../../cmake/FPrime-Code.cmake")
 #
 # Uncomment the following lines, and set them to the BUILD_ROOT of your deployment,
 # which is typically one directory up from the CMakeLists.txt in the deployment dir.
-#set(FPRIME_CURRENT_BUILD_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
-#message(STATUS "F´ BUILD_ROOT currently set to: ${FPRIME_CURRENT_BUILD_ROOT}")
+set(FPRIME_CURRENT_BUILD_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../..")
+message(STATUS "F´ BUILD_ROOT currently set to: ${FPRIME_CURRENT_BUILD_ROOT}")
 
 ##
 # Section 3: Components and Topology
