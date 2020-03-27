@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  ATmegaGpioDriverComponentImpl.cpp
+// \title  ATmegaGpioDriverComponentImplAVR.cpp
 // \author Sterling Peet
 // \brief  cpp file for ATmegaGpioDriver component implementation class
 // ======================================================================
