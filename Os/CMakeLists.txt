@@ -27,7 +27,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     "${CMAKE_CURRENT_LIST_DIR}/LogDefault.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Linux/InterruptLock.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Linux/WatchdogTimer.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/Linux/IntervalTimer.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/MacOs/IntervalTimer.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/X86/IntervalTimer.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Posix/Mutex.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Linux/FileSystem.cpp"
