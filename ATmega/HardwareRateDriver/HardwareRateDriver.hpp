@@ -21,7 +21,7 @@ namespace Arduino {
              */
             HardwareRateDriver(const char* compName, U32 intervalMs);
     #else
-            HardwareRateDriver();
+            HardwareRateDriver(U32 intervalMs);
     #endif
             /**
              * Starts this driver, kicking off the hardware interrupt or the Linux
