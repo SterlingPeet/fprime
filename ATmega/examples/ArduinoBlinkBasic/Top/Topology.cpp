@@ -93,7 +93,7 @@ void constructApp() {
 #ifndef ARDUINO
     printf("Starting TaskRunner.\n");
 #endif
-    taskRunner.run();
+    while(1){taskRunner.run();}
 }
 /**
  * Exit Tasks:
