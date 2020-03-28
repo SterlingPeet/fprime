@@ -22,4 +22,8 @@ set(MOD_DEPS
 if (BUILD_SHARED_LIBS OR CMAKE_SYSTEM_PROCESSOR STREQUAL "avr")
     list(APPEND MOD_DEPS "Os")
 endif()
+# If baremetal scheduler is set, compile appropriately
+if (BAREMETAL_SCHEDULER)
+    add_definitions("-DFW_BAREMETAL_SCHEDULER")
+endif()
 register_fprime_module()
