@@ -41,11 +41,11 @@ namespace Drv {
 
       if(state)
       {
-        printf("Setting GPIO state to 1");
+        printf("Setting GPIO state to 1\n");
       }
       else
       {
-        printf("Setting GPIO state to 0");
+        printf("Setting GPIO state to 0\n");
       }
   }
 
