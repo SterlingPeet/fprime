@@ -10,15 +10,15 @@ set(SOURCE_FILES
   "${CMAKE_CURRENT_LIST_DIR}/LedBlinker.cpp"
 )
 # Check the Linux build
-if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/LedBlinkerLinux.cpp")
 # ArduinoMega additions
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/LedBlinkerArduino.cpp")
 endif()
 register_fprime_module()
 # Add ArduinoMega dependency
-if(${CMAKE_SYSTEM_NAME} STREQUAL "ArduinoMega")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
     get_module_name(${CMAKE_CURRENT_LIST_DIR})
     add_arduino_dependency("${MODULE_NAME}")
 endif()
