@@ -22,13 +22,6 @@ namespace Arduino {
   void LedBlinkerComponentImpl ::
     blink()
   {
-      static U64 s_counter = 0;
-      if ((s_counter % 10) == 0) {
-          printf("Setting: gpio to %d\n", m_state);
-      }
-      if ((s_counter % 10) == 5) {
-          printf("Setting: gpio to %d\n", m_state);
-      }
-      s_counter += 1;
+      this->gpio_out(0, m_state);
   }
 } // end namespace Arduino
