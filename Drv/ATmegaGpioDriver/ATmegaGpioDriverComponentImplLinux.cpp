@@ -39,13 +39,17 @@ namespace Drv {
 
       // TODO Check direction too?
 
+#if FW_OBJECT_NAMES == 1
+      printf("Comp %s: ", this->m_objName);
+#endif
+      printf("Setting GPIO state to ");
       if(state)
       {
-        printf("Setting GPIO state to 1\n");
+        printf("1\n");
       }
       else
       {
-        printf("Setting GPIO state to 0\n");
+        printf("0\n");
       }
   }
 
