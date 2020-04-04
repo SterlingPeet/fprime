@@ -63,7 +63,7 @@ void constructApp() {
     constructArduinoArchitecture();
 
     // configure things
-    ledGpio.setup(DDRB, PORTB, PB7, Drv::ATmegaGpioDriverComponentImpl::GPIO_OUT);
+    ledGpio.setup(DDRB, PORTB, PB5, Drv::ATmegaGpioDriverComponentImpl::GPIO_OUT);
 
     hardwareRateDriver.start();
 
