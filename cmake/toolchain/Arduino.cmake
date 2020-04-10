@@ -10,15 +10,20 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY" CACHE STRING "Try Static Lib 
 
 # Check if ARDUINO_SDK_PATH is set, otherwise set it to /opt/arduino-1.8.9/
 set(ARDUINO_SDK_PATH "/opt/arduino-1.8.9" CACHE PATH "Path to Arduino SDK")
-set(ARDUINO_VERSION "ArduinoMega2560" CACHE STRING "Version of ARDUINO to use (board or processor)")
+set(ARDUINO_BOARD_NAME "ArduinoMega2560" CACHE STRING "Version of ARDUINO to use (board or processor)")
+
+# Default Arduino settings
 set(ARDUINO_CORE_DIR "arduino")
 set(ARDUINO_VARIANT_DIR "mega")
-include("${CMAKE_CURRENT_LIST_DIR}/ArduinoSupport/${ARDUINO_VERSION}.cmake")
+
+# Setup for the specific board desired by the developer
+include("${CMAKE_CURRENT_LIST_DIR}/ArduinoSupport/${ARDUINO_BOARD_NAME}.cmake")
+
 set(ARDUINO_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores/${ARDUINO_CORE_DIR}" CACHE PATH "arduino SRC")
 set(ARDUINO_VARIANT_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/${ARDUINO_VARIANT_DIR}" CACHE PATH "Location of appropriate pins_arduino.h")
 
 message(STATUS "Arduino SDK path:    ${ARDUINO_SDK_PATH}")
-message(STATUS "Arduino Version:     ${ARDUINO_VERSION}; ${ARDUINO_CORE_DIR}")
+message(STATUS "Arduino Version:     ${ARDUINO_BOARD_NAME}; ${ARDUINO_CORE_DIR}")
 message(STATUS "Arduino Source Dir:  ${ARDUINO_SRC_DIR}")
 
 # Setup the cross compiling tools path
