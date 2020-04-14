@@ -27,7 +27,8 @@ message(STATUS "Arduino Version:     ${ARDUINO_BOARD_NAME}; ${ARDUINO_CORE_DIR}"
 message(STATUS "Arduino Source Dir:  ${ARDUINO_SRC_DIR}")
 
 # Setup the cross compiling tools path
-set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/${CMAKE_SYSTEM_PROCESSOR}/bin")
+# set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/${CMAKE_SYSTEM_PROCESSOR}/bin")
+set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/avr/bin")
 message(STATUS "Arduino Tools Dir:   ${ARDUINO_TOOLS_PATH}")
 
 # Grab a suffix for tools
