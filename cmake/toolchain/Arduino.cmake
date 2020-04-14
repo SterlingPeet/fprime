@@ -15,6 +15,7 @@ set(ARDUINO_BOARD_NAME "ArduinoMega2560" CACHE STRING "Version of ARDUINO to use
 # Default Arduino settings
 set(ARDUINO_CORE_DIR "arduino")
 set(ARDUINO_VARIANT_DIR "mega")
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" CMAKE_SYSTEM_PROCESSOR_LOWER)
 
 # Setup for the specific board desired by the developer
 include("${CMAKE_CURRENT_LIST_DIR}/ArduinoSupport/${ARDUINO_BOARD_NAME}.cmake")
@@ -27,8 +28,7 @@ message(STATUS "Arduino Version:     ${ARDUINO_BOARD_NAME}; ${ARDUINO_CORE_DIR}"
 message(STATUS "Arduino Source Dir:  ${ARDUINO_SRC_DIR}")
 
 # Setup the cross compiling tools path
-# set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/${CMAKE_SYSTEM_PROCESSOR}/bin")
-set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/avr/bin")
+set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/${CMAKE_SYSTEM_PROCESSOR_LOWER}/bin")
 message(STATUS "Arduino Tools Dir:   ${ARDUINO_TOOLS_PATH}")
 
 # Grab a suffix for tools
