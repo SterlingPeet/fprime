@@ -24,8 +24,9 @@ set(ARDUINO_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/cores/${ARDUINO_CO
 set(ARDUINO_VARIANT_SRC_DIR "${ARDUINO_SDK_PATH}/hardware/arduino/avr/variants/${ARDUINO_VARIANT_DIR}" CACHE PATH "Location of appropriate pins_arduino.h")
 
 message(STATUS "Arduino SDK path:    ${ARDUINO_SDK_PATH}")
-message(STATUS "Arduino Version:     ${ARDUINO_BOARD_NAME}; ${ARDUINO_CORE_DIR}")
+message(STATUS "Arduino Board Def:   ${ARDUINO_BOARD_NAME}; ${ARDUINO_CORE_DIR}")
 message(STATUS "Arduino Source Dir:  ${ARDUINO_SRC_DIR}")
+message(STATUS "Arduino Variant Dir: ${ARDUINO_VARIANT_SRC_DIR}")
 
 # Setup the cross compiling tools path
 set(ARDUINO_TOOLS_PATH "${ARDUINO_SDK_PATH}/hardware/tools/${CMAKE_SYSTEM_PROCESSOR_LOWER}/bin")
