@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../Autocoders/Python/schema/ISF/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+
+
+<component name="AssertReset" kind="passive" namespace="ATmega">
+    <comment>A component for resetting the processor when FW_ASSERTs occur</comment>
+</component>
+
