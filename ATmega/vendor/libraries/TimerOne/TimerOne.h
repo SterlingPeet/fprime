@@ -171,7 +171,7 @@ class TimerOne
 
 #elif defined(__AVR__)
 
-#if defined (__AVR_ATmega8__)
+#if defined (__AVR_ATmega8__) || defined (__AVR_ATmega128__)
   //in some io definitions for older microcontrollers TIMSK is used instead of TIMSK1
   #define TIMSK1 TIMSK
 #endif
@@ -278,14 +278,24 @@ class TimerOne
 
     void attachInterrupt(void (*isr)()) __attribute__((always_inline)) {
 	isrCallback = isr;
-	TIMSK1 = _BV(TOIE1);
+	
+	#if defined(__AVR_ATmega128__)
+		TIMSK1 |= _BV(TOIE1);
+		TIMSK1 |= !(_BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
+	#else
+		TIMSK1 = _BV(TOIE1);
+	#endif
     }
     void attachInterrupt(void (*isr)(), unsigned long microseconds) __attribute__((always_inline)) {
 	if(microseconds > 0) setPeriod(microseconds);
 	attachInterrupt(isr);
     }
     void detachInterrupt() __attribute__((always_inline)) {
-	TIMSK1 = 0;
+    #if defined(__AVR_ATmega128__)
+		TIMSK1 |= !(_BV(TOIE1) | _BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
+	#else
+		TIMSK1 = 0;
+	#endif
     }
     static void (*isrCallback)();
     static void isrDefaultUnused();
