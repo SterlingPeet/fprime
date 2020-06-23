@@ -281,7 +281,7 @@ class TimerOne
 	
 	#if defined(__AVR_ATmega128__)
 		TIMSK1 |= _BV(TOIE1);
-		TIMSK1 |= !(_BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
+		TIMSK1 &= ~(_BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
 	#else
 		TIMSK1 = _BV(TOIE1);
 	#endif
@@ -292,7 +292,7 @@ class TimerOne
     }
     void detachInterrupt() __attribute__((always_inline)) {
     #if defined(__AVR_ATmega128__)
-		TIMSK1 |= !(_BV(TOIE1) | _BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
+		TIMSK1 &= ~(_BV(TOIE1) | _BV(TICIE1) | _BV(OCIE1A) | _BV(OCIE1B));
 	#else
 		TIMSK1 = 0;
 	#endif
