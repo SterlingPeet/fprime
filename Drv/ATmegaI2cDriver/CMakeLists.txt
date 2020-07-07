@@ -9,8 +9,12 @@
 
 set(SOURCE_FILES
 	"${CMAKE_CURRENT_LIST_DIR}/ATmegaI2cDriverComponentAi.xml"
-	"${CMAKE_CURRENT_LIST_DIR}/ATmegaI2cDriverComponentImpl.cpp"
 )
+
+# Check the build is AVR/Arduino
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino" OR ${CMAKE_SYSTEM_NAME} STREQUAL "AVR")
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/ATmegaI2cDriverComponentImpl.cpp")
+endif()
 
 register_fprime_module()
 # Add ArduinoMega dependency

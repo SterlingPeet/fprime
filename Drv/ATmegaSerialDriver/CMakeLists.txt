@@ -9,7 +9,11 @@
 
 set(SOURCE_FILES
 	"${CMAKE_CURRENT_LIST_DIR}/ATmegaSerialDriverComponentAi.xml"
-	"${CMAKE_CURRENT_LIST_DIR}/ATmegaSerialDriverComponentImpl.cpp"
 )
+
+# Check the build is AVR/Arduino
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino" OR ${CMAKE_SYSTEM_NAME} STREQUAL "AVR")
+    list(APPEND SOURCE_FILES  "${CMAKE_CURRENT_LIST_DIR}/ATmegaSerialDriverComponentImpl.cpp")
+endif()
 
 register_fprime_module()
