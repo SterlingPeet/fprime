@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  ATmegaSpiDriverComponentImpl.cpp
+// \title  ATmegaSpiDriverComponentImplAVR.cpp
 // \author vagrant
 // \brief  cpp file for ATmegaSpiDriver component implementation class
 //
@@ -14,33 +14,11 @@
 #include <Drv/ATmegaSpiDriver/ATmegaSpiDriverComponentImpl.hpp>
 #include "Fw/Types/BasicTypes.hpp"
 
+#include <avr/io.h>
+
 namespace Drv {
 
-  // ----------------------------------------------------------------------
-  // Construction, initialization, and destruction
-  // ----------------------------------------------------------------------
-
-  ATmegaSpiDriverComponentImpl ::
-#if FW_OBJECT_NAMES == 1
-    ATmegaSpiDriverComponentImpl(
-        const char *const compName
-    ) :
-      ATmegaSpiDriverComponentBase(compName)
-#else
-    ATmegaSpiDriverComponentImpl(void)
-#endif
-  {
-
-  }
-
-  void ATmegaSpiDriverComponentImpl ::
-    init(
-        const NATIVE_INT_TYPE instance
-    )
-  {
-    ATmegaSpiDriverComponentBase::init(instance);
-  }
-
+  //! (Deprecated) This function left only for backwards compatibility, should be removed when possible
   void ATmegaSpiDriverComponentImpl ::
     open(
       volatile uint8_t &ss_data_dir_register,
@@ -49,27 +27,33 @@ namespace Drv {
       SpiMode spi_mode
     )
   {
+      m_ss_manage = true;
+
       m_ss_ddir = &ss_data_dir_register;
       m_ss_port = &ss_port_register;
       m_ss_pin = ss_pin_number;
-
-      // Set MOSI, SCK, hw SS as Output
-      DDRB |= (0x0F & (_BV(DDB0) | _BV(DDB1) | _BV(DDB2)));
 
       // Set SS pin to output high
       // TODO: Tunable to set SS polarity
       *m_ss_ddir |= _BV(m_ss_pin);
       *m_ss_port |= _BV(m_ss_pin);
 
-      // Enable SPI, Set as Master
-      // FCK = Osc/16
-      SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPR0) | (spi_mode << CPHA);
+      setup(SPI_CLOCK_DIV16, SPI_BIT_ORDER_MSB, spi_mode);
   }
 
-  ATmegaSpiDriverComponentImpl ::
-    ~ATmegaSpiDriverComponentImpl(void)
+  void ATmegaSpiDriverComponentImpl ::
+    setup(
+      SpiClockDiv spi_clock_div,
+      SpiBitOrder spi_bit_order,
+      SpiMode spi_mode
+    )
   {
+      // Set MOSI, SCK, hw SS as Output (hw SS required to be set as output for normal MSTR operation)
+      DDRB |= (0x0F & (_BV(DDB0) | _BV(DDB1) | _BV(DDB2)));
 
+      // Enable SPI, Set as Master, Set mode, Set clock div, Set bit order
+      SPSR = (SPSR & ~SPI_CLOCK_SPI2X_MASK) | ((spi_clock_div >> 2) & SPI_CLOCK_SPI2X_MASK);
+      SPCR = _BV(SPE) | _BV(MSTR) | (spi_mode << CPHA) | (spi_clock_div & SPI_CLOCK_SPR_MASK) | (spi_bit_order << DORD);
   }
 
   // ----------------------------------------------------------------------
@@ -77,7 +61,7 @@ namespace Drv {
   // ----------------------------------------------------------------------
 
   void ATmegaSpiDriverComponentImpl ::
-    SpiReadWrite_handler(
+    spiReadWrite_handler(
         const NATIVE_INT_TYPE portNum,
         Fw::Buffer &writeBuffer,
         Fw::Buffer &readBuffer
@@ -89,14 +73,13 @@ namespace Drv {
       U8* readBufferData = (U8*)readBuffer.getdata();
       U8* writeBufferData = (U8*)writeBuffer.getdata();
 
-      *m_ss_port &= ~_BV(m_ss_pin);
+      if (m_ss_manage) { *m_ss_port &= ~_BV(m_ss_pin); }
       for (NATIVE_UINT_TYPE i = 0; i < writeBuffer.getsize(); i++) {
           SPDR = writeBufferData[i];
           while ( !(SPSR & _BV(SPIF)) );  // TODO: add timeout
           readBufferData[i] = SPDR;
       }
-      *m_ss_port |= _BV(m_ss_pin);
-
+      if (m_ss_manage) { *m_ss_port |= _BV(m_ss_pin); }
   }
 
 } // end namespace Drv

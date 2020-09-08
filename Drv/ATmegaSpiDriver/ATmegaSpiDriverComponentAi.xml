@@ -5,7 +5,7 @@
 
     <import_port_type>Drv/SpiDriverPorts/SpiReadWritePortAi.xml</import_port_type>
     <ports>
-        <port name="SpiReadWrite" data_type="Drv::SpiReadWrite"  kind="sync_input"    max_number="1">
+        <port name="spiReadWrite" data_type="Drv::SpiReadWrite"  kind="sync_input"    max_number="1">
         </port>
     </ports>
 
