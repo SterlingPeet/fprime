@@ -6,6 +6,7 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/GpioDriverPorts/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/SerialDriverPorts/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/SpiDriverPorts/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/I2cDriverPorts/")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/U16Array/")
 
 # Components
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BlockDriver/")
