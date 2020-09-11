@@ -18,4 +18,4 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ATmegaGpioDriver/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ATmegaI2cDriver/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ATmegaSpiDriver/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ATmegaSerialDriver/")
-
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ATmegaAdcDriver/")
