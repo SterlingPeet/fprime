@@ -25,6 +25,8 @@ namespace Fw {
 namespace ATmega {
 
   const U32 assertFlagTrue = 0xdeadbeef;
+
+  #ifdef __AVR__
   extern volatile U32 assertFlag __attribute__ ((section(".noinit")));
   extern volatile FILE_NAME_ARG prevAssertFile __attribute__ ((section(".noinit")));
   extern volatile NATIVE_UINT_TYPE prevAssertLineNo __attribute__ ((section(".noinit")));
@@ -35,6 +37,18 @@ namespace ATmega {
   extern volatile AssertArg prevAssertArg4 __attribute__ ((section(".noinit")));
   extern volatile AssertArg prevAssertArg5 __attribute__ ((section(".noinit")));
   extern volatile AssertArg prevAssertArg6 __attribute__ ((section(".noinit")));
+  #else
+  extern volatile U32 assertFlag;
+  extern volatile FILE_NAME_ARG prevAssertFile;
+  extern volatile NATIVE_UINT_TYPE prevAssertLineNo;
+  extern volatile NATIVE_UINT_TYPE prevAssertNumArgs;
+  extern volatile AssertArg prevAssertArg1;
+  extern volatile AssertArg prevAssertArg2;
+  extern volatile AssertArg prevAssertArg3;
+  extern volatile AssertArg prevAssertArg4;
+  extern volatile AssertArg prevAssertArg5;
+  extern volatile AssertArg prevAssertArg6;
+  #endif
 
   class AssertResetComponent :
     public AssertResetComponentBase
