@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../Autocoders/Python/schema/ISF/interface_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../Autocoders/Python/schema/default/interface_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 
 <interface name="I2cWriteRead" namespace="Drv">
     <import_serializable_type>Fw/Buffer/BufferSerializableAi.xml</import_serializable_type>
@@ -14,4 +14,15 @@
            <comment>Buffer containing data</comment>
         </arg>
     </args>
+    <return type="ENUM" pass_by="value">
+       <enum name="I2cStatus">
+            <item name="I2C_OK" comment="Transaction okay"/>
+            <item name="I2C_START_TIMEOUT_ERR" comment="Could not gain control of I2C bus as master, start condition timed out (and bus may be locked up)"/>
+            <item name="I2C_START_ERR" comment="Could not gain control of I2C bus as master"/>
+            <item name="I2C_ADDRESS_ERR" comment="I2C address invalid or device not responding"/>
+            <item name="I2C_WRITE_ERR" comment="I2C write failed"/>
+            <item name="I2C_READ_ERR" comment="I2C read failed"/>
+            <item name="I2C_OTHER_ERR" comment="Other errors that don't fit"/>
+       </enum>
+   </return>
 </interface>

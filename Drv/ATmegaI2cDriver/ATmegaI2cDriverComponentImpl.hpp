@@ -1,18 +1,13 @@
 // ======================================================================
-// \title  ATmegaI2cDriverComponentImpl.hpp
-// \author vagrant
-// \brief  hpp file for ATmegaI2cDriver component implementation class
-//
-// \copyright
-// Copyright 2009-2015, by the California Institute of Technology.
-// ALL RIGHTS RESERVED.  United States Government Sponsorship
-// acknowledged.
-//
+// \title  ATmegaI2cDriverComponent.hpp
+// \author Sterling Peet <sterling.peet@ae.gatech.edu>
+// \brief  I2C driver for operating the I2C bus on an ATmega hardware platform (such as ATmega128).
 // ======================================================================
 
 #ifndef ATmegaI2cDriver_HPP
 #define ATmegaI2cDriver_HPP
 
+#include <Os/IntervalTimer.hpp>
 #include "Drv/ATmegaI2cDriver/ATmegaI2cDriverComponentAc.hpp"
 
 namespace Drv {
@@ -51,7 +46,13 @@ namespace Drv {
       } I2cClockRate;
 
       //! Open device with specified clock rate.
-      void config(U8 slaveAddress, I2cClockRate scl_rate);
+      void config(I2cClockRate scl_rate);
+
+      //! Set timeout value in microseconds.
+      //! Default is 50, approximately 2 byte transactions plus 10
+      //! percent at 400 kHz SCL.
+      //!
+      void setTimeout(NATIVE_UINT_TYPE timeout);
 
       //! Destroy object ATmegaI2cDriver
       //!
@@ -59,13 +60,19 @@ namespace Drv {
 
     PRIVATE:
 
+      NATIVE_INT_TYPE m_freq; /*!< The I2C device speed*/
+      bool m_err_flag;
+      Os::IntervalTimer m_timer;
+      Drv::I2cStatus m_return; /*!< Status for port return value*/
+      NATIVE_UINT_TYPE m_timeout; /*!< Timeout value for I2C transaction events*/
+
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports
       // ----------------------------------------------------------------------
 
       //! Handler implementation for i2cRead
       //!
-      void i2cTransaction_handler(
+      Drv::I2cStatus i2cTransaction_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
           U8 slaveAddress, /*!< I2C slave address of the device*/
           Fw::Buffer &writeBuffer, /*!< Buffer containing write data*/
@@ -93,9 +100,8 @@ namespace Drv {
       //! Read and request NAck
       U8 readNack(void);
 
-      U8 m_address; /*!< The I2C slave address*/
-      NATIVE_INT_TYPE m_freq; /*!< The I2C device speed*/
-
+      //! Two Wire Timeout helper
+      void TW_timeout(U8 twcr);
     };
 
 } // end namespace Drv
