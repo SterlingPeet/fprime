@@ -64,8 +64,8 @@ namespace Drv {
       m_return = Drv::I2cStatus::I2C_START_TIMEOUT_ERR;
     }
 
-    // Check if start condition was sucessfully transmitted
-    if (TW_STATUS != TW_START) // TODO: this is not cross platform
+    // Check if start condition or repeated start condition was sucessfully transmitted
+    if (TW_STATUS != TW_START && TW_STATUS != TW_REP_START) // TODO: this is not cross platform
     {
       Serial.println("Err flag 1");
       m_err_flag = true;
