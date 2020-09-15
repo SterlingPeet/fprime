@@ -11,10 +11,16 @@ set(SOURCE_FILES
 	"${CMAKE_CURRENT_LIST_DIR}/ATmegaSpiDriverComponentImplCommon.cpp"
 )
 
+# Determine the platform specific source files to append:
+string(TOLOWER "${CMAKE_SYSTEM_NAME}" CMAKE_SYSTEM_NAME_LOWER)
+
 # Arduino additions
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+if(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "arduino")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/ATmegaSpiDriverComponentImplAVR.cpp")
-# Check the Linux build
+# AVR platform additions
+elseif(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "avr")
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/ATmegaSpiDriverComponentImplAVR.cpp")
+# Otherwise, assume Linux-compatible build
 else()
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/ATmegaSpiDriverComponentImplLinux.cpp")
 endif()
