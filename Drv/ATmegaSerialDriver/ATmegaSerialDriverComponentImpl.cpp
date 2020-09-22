@@ -1,13 +1,7 @@
 // ======================================================================
 // \title  ATmegaSerialDriverComponentImpl.cpp
-// \author vagrant
-// \brief  cpp file for ATmegaSerialDriver component implementation class
-//
-// \copyright
-// Copyright 2009-2015, by the California Institute of Technology.
-// ALL RIGHTS RESERVED.  United States Government Sponsorship
-// acknowledged.
-//
+// \author Sterling Peet <sterling.peet@ae.gatech.edu
+// \brief  UART driver for operating the hardware UARTs on an ATmega hardware platform (such as ATmega128).
 // ======================================================================
 
 
@@ -15,17 +9,7 @@
 #include <Fw/Types/Assert.hpp>
 #include <Fw/Types/BasicTypes.hpp>
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
-
-#include <avr/io.h>
-#include <avr/interrupt.h>
-
 namespace Drv {
-
-  U8 readBufferData[DR_MAX_NUM_BUFFERS];
-  Types::CircularBuffer readBuffer(readBufferData,DR_MAX_NUM_BUFFERS);
 
   // ----------------------------------------------------------------------
   // Construction, initialization, and destruction
@@ -41,7 +25,10 @@ namespace Drv {
     ATmegaSerialDriverComponentImpl(void)
 #endif
   {
-
+    this->m_UartBytesSent[0] = 0;
+    this->m_UartBytesSent[1] = 0;
+    this->m_UartBytesRecv[0] = 0;
+    this->m_UartBytesRecv[1] = 0;
   }
 
   void ATmegaSerialDriverComponentImpl ::
@@ -50,71 +37,6 @@ namespace Drv {
     )
   {
     ATmegaSerialDriverComponentBase::init(instance);
-  }
-
-  bool ATmegaSerialDriverComponentImpl ::
-    open(
-        UartDevice device, 
-        UartBaudRate baud
-    ) 
-  {
-      /* TODO: Make device switch registers to use
-      switch(device) {
-          case USART0:
-            break;
-          case USART1:
-            break;
-          default:
-            break;
-            FW_ASSERT(0,device);
-      }
-      */
-
-      NATIVE_UINT_TYPE relayRate = 0;
-      switch (baud) {
-          case BAUD_9600:
-              relayRate = 9600;
-              break;
-          case BAUD_19200:
-              relayRate = 19200;
-              break;
-          case BAUD_38400:
-              relayRate = 38400;
-              break;
-          case BAUD_57600:
-              relayRate = 57600;
-              break;
-          case BAUD_115K:
-              relayRate = 115200;
-              break;
-          case BAUD_230K:
-              relayRate = 230400;
-              break;
-          case BAUD_460K:
-              relayRate = 460800;
-              break;
-          case BAUD_921K:
-              relayRate = 921600;
-              break;
-          default:
-              FW_ASSERT(0,baud);
-              break;
-      }
-
-      // Set Baud rate register
-      UBRR1L = (F_CPU / (16UL * relayRate)) - 1;
-
-      // Set TX/RX enable and interrupts
-      UCSR1B = (1 << RXEN1) | _BV(TXEN1);
-
-      // Set frame format: 8N1
-      UCSR1C = (3 << UCSZ10);
-
-      // Enable Receive interrupt
-      UCSR1B |= (1 << RXCIE1);
-      sei();
-
-      return true;
   }
 
   ATmegaSerialDriverComponentImpl ::
@@ -128,44 +50,15 @@ namespace Drv {
   // ----------------------------------------------------------------------
 
   void ATmegaSerialDriverComponentImpl ::
-    serialRecv_handler(
+    reportTlm_handler(
         const NATIVE_INT_TYPE portNum,
-        Fw::Buffer &serBuffer,
-        SerialReadStatus &status
+        NATIVE_UINT_TYPE context
     )
   {
-    // TODO
-      serBuffer.setsize(readBuffer.get_remaining_size(false));
-      readBuffer.peek((U8*)serBuffer.getdata(), readBuffer.get_remaining_size(false));
-      readBuffer.rotate(readBuffer.get_remaining_size(false));
-  }
-
-  void ATmegaSerialDriverComponentImpl ::
-    serialSend_handler(
-        const NATIVE_INT_TYPE portNum,
-        Fw::Buffer &serBuffer
-    )
-  {
-      transmit((U8*)serBuffer.getdata(), serBuffer.getsize());
-  }
-
-  void ATmegaSerialDriverComponentImpl ::
-    transmit(
-        U8* data, const NATIVE_UINT_TYPE len
-    ) 
-  {
-      for (NATIVE_UINT_TYPE i = 0; i < len; i++) {
-        while ( !(UCSR1A & (1 << UDRE1)) );
-          UDR1 = data[i];
-      }
-  }
-  
-  ISR(USART1_RX_vect) 
-  {
-      U8 data;
-      data = UDR1;
-      FW_ASSERT(readBuffer.serialize(&data,1) == Fw::FW_SERIALIZE_OK);
-        // TODO: Error or something?
+    tlmWrite_UART0_Bytes_Sent(this->m_UartBytesSent[0]);
+    tlmWrite_UART1_Bytes_Sent(this->m_UartBytesSent[1]);
+    tlmWrite_UART0_Bytes_Recv(this->m_UartBytesRecv[0]);
+    tlmWrite_UART1_Bytes_Recv(this->m_UartBytesRecv[1]);
   }
 
 } // end namespace Drv

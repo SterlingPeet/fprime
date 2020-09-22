@@ -1,20 +1,13 @@
 // ======================================================================
 // \title  ATmegaSerialDriverComponentImpl.hpp
-// \author vagrant
-// \brief  hpp file for ATmegaSerialDriver component implementation class
-//
-// \copyright
-// Copyright 2009-2015, by the California Institute of Technology.
-// ALL RIGHTS RESERVED.  United States Government Sponsorship
-// acknowledged.
-//
+// \author Andrew Fear <afear@gatech.edu>
+// \brief  UART driver for operating the hardware UARTs on an ATmega hardware platform (such as ATmega128).
 // ======================================================================
 
 #ifndef ATmegaSerialDriver_HPP
 #define ATmegaSerialDriver_HPP
 
 #include <Drv/ATmegaSerialDriver/ATmegaSerialDriverComponentAc.hpp>
-#include <Drv/ATmegaSerialDriver/ATmegaSerialDriverComponentImplCfg.hpp>
 #include <Utils/Types/CircularBuffer.hpp>
 
 namespace Drv {
@@ -56,10 +49,7 @@ namespace Drv {
           BAUD_19200,
           BAUD_38400,
           BAUD_57600,
-          BAUD_115K,
-          BAUD_230K,
-          BAUD_460K,
-          BAUD_921K
+          BAUD_115K
       } UartBaudRate;
 
       typedef enum PARITY  {
@@ -68,8 +58,10 @@ namespace Drv {
           PARITY_EVEN
       } UartParity;
 
-      // Open device with specified baud and parity.
-      bool open(UartDevice device, UartBaudRate baud);
+      //! Open device with specified baud and parity.
+      //!   This must be called for each UART that will be used.
+      //!
+      bool open(UartDevice device, UartBaudRate baud, UartParity parity);
 
       //! Destroy object ATmegaSerialDriver
       //!
@@ -80,6 +72,13 @@ namespace Drv {
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports
       // ----------------------------------------------------------------------
+
+      //! Handler implementation for reportTlm
+      //!
+      void reportTlm_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          NATIVE_UINT_TYPE context /*!< The call order*/
+      );
 
       //! Handler implementation for serialRecv
       //!
@@ -93,7 +92,21 @@ namespace Drv {
       //!
       void serialSend_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
-          Fw::Buffer &serBuffer 
+          Fw::Buffer &serBuffer
+      );
+
+      //! Handler implementation for serialRecvFwBuf
+      //!
+      void serialRecvFwBuf_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::Buffer &fwBuffer /*!< Buffer containing data*/
+      );
+
+      //! Handler implementation for serialSendFwBuf
+      //!
+      void serialSendFwBuf_handler(
+          const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          Fw::Buffer &fwBuffer
       );
 
       //! Transmit a byte array
@@ -104,6 +117,12 @@ namespace Drv {
       );
 
       UartDevice m_device;  //!< USART device
+      U32 m_UartBytesSent[2];
+      U32 m_UartBytesRecv[2];
+
+#ifndef __avr__
+      NATIVE_INT_TYPE m_fd[2]; //!< file descriptor returned for I/O device
+#endif
 
     };
 
