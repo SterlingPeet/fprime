@@ -1,10 +1,15 @@
+// ======================================================================
+// \title  AssertResetComponent.cpp
+// \author Sterling Peet <sterling.peet@ae.gatech.edu>
+// \brief  Reset the ATmega via the internal watchdog timer after a FW_ASSERT().
+// ======================================================================
+
 #include <ATmega/AssertReset/AssertResetComponent.hpp>
 #include "Fw/Types/BasicTypes.hpp"
 #include <Fw/Types/Assert.hpp>
 #include <Fw/Logger/Logger.hpp>
 #include <assert.h>
 #include <stdio.h>
-
 
 namespace ATmega {
 

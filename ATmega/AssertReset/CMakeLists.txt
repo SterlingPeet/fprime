@@ -6,25 +6,43 @@
 #
 ####
 set(SOURCE_FILES
-  "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponentAi.xml"
-  "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponent.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponentAi.xml"
+    "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponent.cpp"
 )
 
+# Determine the platform specific source files to append:
+string(TOLOWER "${CMAKE_SYSTEM_NAME}" CMAKE_SYSTEM_NAME_LOWER)
+
 # Arduino additions
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+if(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "arduino")
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponentArduino.cpp")
-# Check the Linux build
+# AVR platform additions
+elseif(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "avr")
+    list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponentAVR.cpp")
+# Otherwise, assume Linux-compatible build
 else()
     list(APPEND SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/AssertResetComponentLinux.cpp")
 endif()
 
+# Uncomment and add any modules that this component depends on, else
+# they might not be available when cmake tries to build this component.
+
 set(MOD_DEPS
-  Fw/Logger
+    Fw/Logger
 )
+
 register_fprime_module()
 
+
 # Add Arduino dependency
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Arduino")
+if(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "arduino")
     get_module_name(${CMAKE_CURRENT_LIST_DIR})
     add_arduino_dependency("${MODULE_NAME}")
 endif()
+
+# Add AVR dependency
+if(${CMAKE_SYSTEM_NAME_LOWER} STREQUAL "avr")
+    get_module_name(${CMAKE_CURRENT_LIST_DIR})
+    add_avr_dependency("${MODULE_NAME}")
+endif()
+

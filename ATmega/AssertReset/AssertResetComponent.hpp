@@ -1,3 +1,9 @@
+// ======================================================================
+// \title  AssertResetComponent.hpp
+// \author Sterling Peet <sterling.peet@ae.gatech.edu>
+// \brief  Reset the ATmega via the internal watchdog timer after a FW_ASSERT().
+// ======================================================================
+
 #ifndef AssertReset_HPP
 #define AssertReset_HPP
 

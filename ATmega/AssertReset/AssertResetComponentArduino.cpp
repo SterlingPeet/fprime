@@ -1,3 +1,9 @@
+// ======================================================================
+// \title  AssertResetComponentArduino.cpp
+// \author Sterling Peet <sterling.peet@ae.gatech.edu>
+// \brief  Reset the ATmega via the internal watchdog timer after a FW_ASSERT().
+// ======================================================================
+
 #include <ATmega/AssertReset/AssertResetComponent.hpp>
 #include "Fw/Types/BasicTypes.hpp"
 #include <Fw/Types/Assert.hpp>
@@ -7,9 +13,15 @@
 #include <Arduino.h>
 #include <avr/wdt.h>
 
-#define SERIAL_PORT Serial
-#define FATAL_BAUD 115200
-
+#ifndef FATAL_SERIAL_PORT
+    #define FATAL_SERIAL_PORT Serial1
+#endif
+#ifndef FATAL_BAUD
+    #define FATAL_BAUD 115200
+#endif
+#ifndef FATAL_WD_TIME
+    #define FATAL_WD_TIME WDTO_500MS
+#endif
 
 namespace ATmega {
   volatile U32 assertFlag __attribute__ ((section(".noinit")));
@@ -26,16 +38,16 @@ namespace ATmega {
   void AssertResetComponent::AssertReset::doAssert(void) {
         // for **duino, delay then let WD expire to reset processor
         Fw::Logger::logMsg("A FATAL Assert Occurred.\n",0,0,0,0,0,0);
-        SERIAL_PORT.println("A FATAL Assert Occurred.");
-        // (void)Os::Task::delay(1000);
+        FATAL_SERIAL_PORT.println(F("\r\nA FATAL Assert Occurred."));
+
         Fw::Logger::logMsg("Resetting.\n",0,0,0,0,0,0);
-        SERIAL_PORT.println("Resetting.");
+        FATAL_SERIAL_PORT.println(F("\r\nResetting."));
 
         //  Sometimes this doesn't act correctly if it is not
         //  cleared before the watchdog reset ?!?
         MCUCSR = 0;
         // https://www.nongnu.org/avr-libc/user-manual/group__avr__watchdog.html
-        wdt_enable(WDTO_500MS);
+        wdt_enable(FATAL_WD_TIME);
         while(1);
   }
 
@@ -71,9 +83,9 @@ namespace ATmega {
 
       I8 msg[FW_ASSERT_TEXT_SIZE];
       Fw::defaultReportAssert(file,lineNo,numArgs,arg1,arg2,arg3,arg4,arg5,arg6,msg,sizeof(msg));
-      SERIAL_PORT.begin(FATAL_BAUD);
-      SERIAL_PORT.println();
-      SERIAL_PORT.print((const char*)msg);
+      FATAL_SERIAL_PORT.begin(FATAL_BAUD);
+      FATAL_SERIAL_PORT.println();
+      FATAL_SERIAL_PORT.print((const char*)msg);
       delay(1000);
   }
 
