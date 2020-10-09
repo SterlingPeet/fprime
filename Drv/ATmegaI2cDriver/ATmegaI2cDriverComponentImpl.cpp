@@ -20,12 +20,12 @@ namespace Drv {
     ATmegaI2cDriverComponentImpl(
         const char *const compName
     ) :
-      ATmegaI2cDriverComponentBase(compName)
+      ATmegaI2cDriverComponentBase(compName),
 #else
-    ATmegaI2cDriverComponent(void)
+    ATmegaI2cDriverComponentImpl(void) :
 #endif
-  ,m_freq(0)
-  ,m_timeout(5000)
+     m_freq(0)
+    ,m_timeout(5000)
   {
 
   }

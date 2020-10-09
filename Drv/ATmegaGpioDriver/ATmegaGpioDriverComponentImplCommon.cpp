@@ -19,11 +19,11 @@ namespace Drv {
     ATmegaGpioDriverComponentImpl(
         const char *const compName
     ) :
-      ATmegaGpioDriverComponentBase(compName)
+      ATmegaGpioDriverComponentBase(compName),
 #else
-    ATmegaGpioDriverImpl(void)
+    ATmegaGpioDriverComponentImpl(void) :
 #endif
-    ,m_ddir(0)   // 0 is a null pointer
+     m_ddir(0)   // 0 is a null pointer
     ,m_port(0)   // 0 is a null pointer
     ,m_pin(INVALID_PIN_NUMBER)  // number of left shifts for pin, 8 and up are nonsense
     ,m_direction(GPIO_IN)

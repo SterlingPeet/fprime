@@ -12,7 +12,7 @@ HardwareRateDriver* HardwareRateDriver::s_driver = NULL;
     HardwareRateDriver::HardwareRateDriver(const char* compName, U32 intervalMs) :
         HardwareRateDriverComponentBase(compName),
 #else
-    HardwareRateDriver::HardwareRateDriver(U32 intervalMs),
+    HardwareRateDriver::HardwareRateDriver(U32 intervalMs) :
 #endif
         m_interval(intervalMs)
     {

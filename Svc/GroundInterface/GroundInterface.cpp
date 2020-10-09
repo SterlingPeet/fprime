@@ -26,7 +26,7 @@ namespace Svc {
     ) :
       GroundInterfaceComponentBase(compName),
 #else
-  GroundInterfaceComponentBase(void),
+    GroundInterfaceComponentImpl(void) :
 #endif
     m_ext_buffer(0xfeedfeed, 0xdeeddeed, reinterpret_cast<POINTER_CAST>(m_buffer), GND_BUFFER_SIZE),
     m_data_size(0),

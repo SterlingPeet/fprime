@@ -21,7 +21,7 @@ namespace ParamBlinkDemo {
     ) :
       PrmBlinkComponentBase(compName),
 #else
-    PrmBlinkComponentImpl(void) :
+    PrmBlinkComponent(void) :
 #endif
     m_state(false),
     m_paramsLoaded(false),
