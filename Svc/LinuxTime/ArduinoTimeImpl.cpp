@@ -30,7 +30,7 @@ namespace Svc {
     ) {
         U32 msec = millis();
         U32 usec = micros();
-        time.set(msec/1000, usec);
+        time.set(msec/1000, usec % 1000000);
     }
 
     void LinuxTimeImpl::init(NATIVE_INT_TYPE instance) {
