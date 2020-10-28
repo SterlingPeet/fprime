@@ -64,3 +64,5 @@ core
 py_dict
 .settings
 build-fprime-automatic*
+
+*.bak
