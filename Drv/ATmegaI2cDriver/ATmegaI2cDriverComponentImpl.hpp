@@ -60,7 +60,7 @@ namespace Drv {
 
     PRIVATE:
 
-      NATIVE_INT_TYPE m_freq; /*!< The I2C device speed*/
+      I32 m_freq; /*!< The I2C device speed*/
       bool m_err_flag;
       Os::IntervalTimer m_timer;
       Drv::I2cStatus m_return; /*!< Status for port return value*/

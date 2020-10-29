@@ -45,7 +45,7 @@ namespace Drv {
      * Disable prescalar value in TWSR and set TWBR according to CPU freq and SCL freq.
      */
     TWSR &= ~(_BV(TWPS1) | _BV(TWPS0));
-    TWBR = ( (F_CPU/m_freq) - 16 ) / (2 * 4);
+    TWBR = ( (F_CPU/m_freq) - 16 ) / (2 * 1);
   }
 
   // ----------------------------------------------------------------------
