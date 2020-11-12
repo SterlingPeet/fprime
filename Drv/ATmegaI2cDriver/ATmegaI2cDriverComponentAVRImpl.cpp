@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  ATmegaI2cDriverComponentImplAVR.cpp
+// \title  ATmegaI2cDriverComponentAVRImpl
 // \author Sterling Peet <sterling.peet@ae.gatech.edu>
 // \brief  I2C driver for operating the I2C bus on an ATmega hardware platform (such as ATmega128).
 // ======================================================================
@@ -12,7 +12,14 @@
 #include <avr/io.h>
 #include <util/twi.h>
 
-#include "Arduino.h"
+#ifdef DEBUG_I2C_AVR
+  #ifdef ARDUINO
+    #include <Arduino.h>
+    #ifndef DEBUG_Serial
+      #define DEBUG_Serial Serial
+    #endif
+  #endif
+#endif
 
 namespace Drv {
 
@@ -67,7 +74,9 @@ namespace Drv {
     // Check if start condition or repeated start condition was sucessfully transmitted
     if (TW_STATUS != TW_START && TW_STATUS != TW_REP_START) // TODO: this is not cross platform
     {
-      Serial.println("Err flag 1");
+#ifdef DEBUG_I2C_AVR
+      DEBUG_Serial.println(F("I2C Start Error State"));
+#endif
       m_err_flag = true;
       m_return = Drv::I2cStatus::I2C_START_ERR;
     }

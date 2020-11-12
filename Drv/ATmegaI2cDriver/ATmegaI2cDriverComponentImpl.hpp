@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  ATmegaI2cDriverComponent.hpp
+// \title  ATmegaI2cDriverComponentImpl.hpp
 // \author Sterling Peet <sterling.peet@ae.gatech.edu>
 // \brief  I2C driver for operating the I2C bus on an ATmega hardware platform (such as ATmega128).
 // ======================================================================
@@ -9,6 +9,10 @@
 
 #include <Os/IntervalTimer.hpp>
 #include "Drv/ATmegaI2cDriver/ATmegaI2cDriverComponentAc.hpp"
+
+#ifndef I2C_QUEUE_LENGTH
+  #define I2C_QUEUE_LENGTH 4
+#endif
 
 namespace Drv {
 
@@ -59,12 +63,21 @@ namespace Drv {
       ~ATmegaI2cDriverComponentImpl(void);
 
     PRIVATE:
+      typedef enum I2C_DRV_STATE {
+        TRANS_IDLE,
+        TRANS_IN_PROGRESS,
+      } I2cDrvState;
 
       I32 m_freq; /*!< The I2C device speed*/
       bool m_err_flag;
       Os::IntervalTimer m_timer;
       Drv::I2cStatus m_return; /*!< Status for port return value*/
       NATIVE_UINT_TYPE m_timeout; /*!< Timeout value for I2C transaction events*/
+      I2cDrvState m_state;
+      U8 m_q_len;
+      U8 m_q_slaveAddress[I2C_QUEUE_LENGTH];
+      Fw::Buffer m_q_writeBuffer[I2C_QUEUE_LENGTH];
+      Fw::Buffer m_q_readBuffer[I2C_QUEUE_LENGTH];
 
       // ----------------------------------------------------------------------
       // Handler implementations for user-defined typed input ports
@@ -74,6 +87,13 @@ namespace Drv {
       //!
       Drv::I2cStatus i2cTransaction_handler(
           const NATIVE_INT_TYPE portNum, /*!< The port number*/
+          U8 slaveAddress, /*!< I2C slave address of the device*/
+          Fw::Buffer &writeBuffer, /*!< Buffer containing write data*/
+          Fw::Buffer &readBuffer /*!< Buffer containing data*/
+      );
+
+      //! Transaction execution logic
+      Drv::I2cStatus execute_txn(
           U8 slaveAddress, /*!< I2C slave address of the device*/
           Fw::Buffer &writeBuffer, /*!< Buffer containing write data*/
           Fw::Buffer &readBuffer /*!< Buffer containing data*/

@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  ATmegaI2cDriverComponentImplLinux.cpp
+// \title  ATmegaI2cDriverComponentLinuxImpl.cpp
 // \author Sterling Peet <sterling.peet@ae.gatech.edu>
 // \brief  I2C driver for operating the I2C bus on an ATmega hardware platform (such as ATmega128).
 // ======================================================================

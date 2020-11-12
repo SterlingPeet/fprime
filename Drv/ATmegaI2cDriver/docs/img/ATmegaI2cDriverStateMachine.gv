@@ -1,0 +1,49 @@
+digraph i2c_state_machine {
+    rankdir=LR;
+    // size="8,5"
+
+    ENTRY [shape=point, label=""]
+    EXIT [shape=point, label=""]
+
+    node [shape = rectangle, style = rounded];
+
+    subgraph cluster_setup {
+        label = "Transaction Setup"
+        Add   [label = "Add TXN to Queue"]
+        QFlag [label = "Queue Assert Flag"]
+        Check [label = "Check Running State"]
+        Skip2 [label = "Jump to Previous Run State"]
+    }
+
+    subgraph cluster_run {
+        label = "Run Transaction"
+        Start [label = "I2C Start"]
+        Write [label = "Write Bytes"]
+        Repet [label = "Repeated Start"]
+        Read  [label = "Read Bytes"]
+        QAsrt [label = "Q Assert"]
+        Idle  [label = "IDLE"]
+        ERR0  [label = "START_ERR"]
+        TIME0 [label = "START_TIMOUT_ERR"]
+    }
+
+    ENTRY -> Add   [label = "i2cTransaction Port Call" ]
+    Add   -> QAsrt [label = "Q > Max"]
+    Add   -> QFlag [label = "Q = Max"]
+    Add   -> Check [label = "Q < Max"]
+    QFlag -> Check
+    Check -> Start [label = "Run == IDLE"]
+    Check -> Skip2 [label = "Run != IDLE"]
+    Start -> Write [label = "ACK"]
+    Start -> TIME0 [label = "NACK && Timeout"]
+    Start -> ERR0  [label = "BUS ERROR"]
+    Write -> Repet
+    Repet -> Read
+    Read  -> QAsrt [label = "Assert Flag"]
+    Read  -> Idle  [label = "De-Q"] // <<O>Return from Port Call</O>>]
+    QAsrt -> Idle  [label = "FW_ASSERT"]
+    Idle  -> Check [label = "Q > 0"]
+    Idle  -> EXIT
+
+    // {rank=same Add Start}
+}

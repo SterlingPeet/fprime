@@ -10,9 +10,11 @@
 SRC = ATmegaI2cDriverComponentAi.xml \
       ATmegaI2cDriverComponentImpl.cpp
 
-SRC_LINUX = ATmegaI2cDriverComponentImplLinux.cpp
+SRC_LINUX = ATmegaI2cDriverComponentLinuxImpl.cpp
 
-SRC_ARDUINO = ATmegaI2cDriverComponentImplAVR.cpp
+SRC_ARDUINO = ATmegaI2cDriverComponentAVRImpl.cpp
+
+SRC_RASPIAN = ATmegaI2cDriverComponentLinuxImpl.cpp
 
 HDR = ATmegaI2cDriverComponentImpl.hpp
 
