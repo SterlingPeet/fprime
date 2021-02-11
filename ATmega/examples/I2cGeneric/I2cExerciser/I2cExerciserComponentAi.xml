@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../../../../Autocoders/Python/schema/default/component_schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<component name="I2cExerciser" kind="passive" namespace="examples">
+    <!-- Example of importing a port type -->
+    <import_port_type>Svc/Sched/SchedPortAi.xml</import_port_type>
+    <import_port_type>Drv/GpioDriverPorts/GpioWritePortAi.xml</import_port_type>
+    <import_port_type>Drv/I2cDriverPorts/I2cWriteReadPortAi.xml</import_port_type>
+    <comment>Example component to support I2cGeneric deployment.</comment>
+    <ports>
+        <!-- Input ports must be of kind "sync_input" or "async_input" or "guarded_input" -->
+        <!-- Input sched port -->
+        <port name="schedIn" data_type="Svc::Sched" kind="sync_input" max_number="1">
+        </port>
+        <port name="gpio" data_type="Drv::GpioWrite" kind="output" max_number="1">
+        </port>
+        <port name="i2cBus" data_type="Drv::I2cWriteRead" kind="output" max_number="1">
+        </port>
+    </ports>
+    <commands>
+        <command kind="sync" opcode="0" mnemonic="i2cTransaction">
+            <comment>
+                Instigate a custom I2C transaction, and telemeter the response.
+            </comment>
+            <args>
+                <arg name="address" type="U8">
+                    <comment>Address of i2c slave</comment>
+                </arg>
+                <arg name="txLength" type="U8">
+                    <comment>number of bytes to send to i2c slave</comment>
+                </arg>
+                <arg name="rxLength" type="U8">
+                    <comment>maximum number of bytes to recieve from i2c slave</comment>
+                </arg>
+            </args>
+        </command>
+        <command kind="sync" opcode="1" mnemonic="loadTxData">
+            <comment>prep I2C tx buffer for next trasaction, one byte at a time</comment>
+            <args>
+                <arg name="index" type="U8">
+                    <comment>Zero indexed position of the data byte</comment>
+                </arg>
+                <arg name="data" type="U8">
+                    <comment>data byte to load into buffer</comment>
+                </arg>
+            </args>
+        </command>
+        <command kind="sync" opcode="2" mnemonic="downlinkI2CBuffers">
+            <comment>send the buffer contents to the ground using the current size settings</comment>
+        </command>
+        <command kind="sync" opcode="3" mnemonic="downlinkI2CBufferSizes">
+            <comment>send the buffer sizes/lengths to the ground</comment>
+        </command>
+        <command kind="sync" opcode="4" mnemonic="downlinkParams">
+            <comment>
+            Command to telemeter the current parameter values in use.
+            </comment>
+        </command>
+    </commands>
+    <events>
+        <event id="0" name="I2cRxData" severity="ACTIVITY_HI" format_string="RX I2C Buffer Contents: (start index %i) 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X">
+            <comment>data from the I2C Rx Buffer</comment>
+            <args>
+                <arg name="index" type="U8">
+                    <comment>buffer index of first item in this event</comment>
+                </arg>
+                <arg name="data0" type="U8">
+                    <comment>data value at index + 0</comment>
+                </arg>
+                <arg name="data1" type="U8">
+                    <comment>data value at index + 1</comment>
+                </arg>
+                <arg name="data2" type="U8">
+                    <comment>data value at index + 2</comment>
+                </arg>
+                <arg name="data3" type="U8">
+                    <comment>data value at index + 3</comment>
+                </arg>
+                <arg name="data4" type="U8">
+                    <comment>data value at index + 4</comment>
+                </arg>
+                <arg name="data5" type="U8">
+                    <comment>data value at index + 5</comment>
+                </arg>
+                <arg name="data6" type="U8">
+                    <comment>data value at index + 6</comment>
+                </arg>
+                <arg name="data7" type="U8">
+                    <comment>data value at index + 7</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="1" name="I2cTxData" severity="ACTIVITY_HI" format_string="TX I2C Buffer Contents: (start index %i) 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X 0x%X">
+            <comment>data from the I2C Rx Buffer</comment>
+            <args>
+                <arg name="index" type="U8">
+                    <comment>buffer index of first item in this event</comment>
+                </arg>
+                <arg name="data0" type="U8">
+                    <comment>data value at index + 0</comment>
+                </arg>
+                <arg name="data1" type="U8">
+                    <comment>data value at index + 1</comment>
+                </arg>
+                <arg name="data2" type="U8">
+                    <comment>data value at index + 2</comment>
+                </arg>
+                <arg name="data3" type="U8">
+                    <comment>data value at index + 3</comment>
+                </arg>
+                <arg name="data4" type="U8">
+                    <comment>data value at index + 4</comment>
+                </arg>
+                <arg name="data5" type="U8">
+                    <comment>data value at index + 5</comment>
+                </arg>
+                <arg name="data6" type="U8">
+                    <comment>data value at index + 6</comment>
+                </arg>
+                <arg name="data7" type="U8">
+                    <comment>data value at index + 7</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="2" name="I2cExerciserParameterUpdated" severity="ACTIVITY_LO" format_string="I2cExerciser Parameter %d was updated">
+            <comment>
+            Report parameter update
+            </comment>
+            <args>
+                <arg name="id" type="U32">
+                    <comment>The ID argument</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="3" name="txBufferLoadRequestOutOfRange" severity="WARNING_LO" format_string="Cannot place data 0x%X in buffer index %d, max index is %d.">
+            <comment>Requested index for buffer load operation is out of range.</comment>
+            <args>
+                <arg name="data" type="U8">
+                    <comment>The data that could not be loaded</comment>
+                </arg>
+                <arg name="index" type="U8">
+                    <comment>Index value that was requested</comment>
+                </arg>
+                <arg name="max_index" type="U8">
+                    <comment>The highest possible index that can be requested</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="4" name="i2cAddressOutOfRange" severity="WARNING_HI" format_string="Address %d is above 127.">
+            <comment>Invalid I2C Address</comment>
+            <args>
+                <arg name="address" type="U8">
+                    <comment>Requested address that is out of range</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="5" name="txLengthTooLarge" severity="WARNING_HI" format_string="Cannot perform I2C TXN, specified TX data length %d is bigger than the max %d.">
+            <comment>Requested TX buffer length is too large for the buffer.</comment>
+            <args>
+                <arg name="length" type="U8">
+                    <comment>Requested length</comment>
+                </arg>
+                <arg name="max_length" type="U8">
+                    <comment>Max length</comment>
+                </arg>
+            </args>
+        </event>
+        <event id="6" name="rxLengthTooLarge" severity="WARNING_HI" format_string="Cannot perform I2C TXN, specified RX data length %d is bigger than the max %d.">
+            <comment>Requested RX buffer length is too large for the buffer.</comment>
+            <args>
+                <arg name="length" type="U8">
+                    <comment>Requested length</comment>
+                </arg>
+                <arg name="max_length" type="U8">
+                    <comment>Max length</comment>
+                </arg>
+            </args>
+        </event>
+    </events>
+    <telemetry>
+        <channel id="0" name="i2cTxBuffLen" data_type="U8">
+            <comment>Length setting of the TX buffer</comment>
+        </channel>
+        <channel id="1" name="i2cRxBuffLen" data_type="U8">
+            <comment>Length setting of the RX buffer</comment>
+        </channel>
+        <channel id="2" name="numBlinks" data_type="U32">
+            <comment>
+            Number of blinks since startup
+            </comment>
+        </channel>
+        <channel id="3" name="blinkDecimate" data_type="U8">
+            <comment>
+            Current setting of the blinkDecimate parameter.
+            </comment>
+        </channel>
+    </telemetry>
+    <parameters>
+        <parameter id="0" set_opcode="5" save_opcode="6" name="blinkDecimate" data_type="U8" default="2">
+            <comment>
+            The number of sched cycles to skip before changing LED state, higher is longer.
+            </comment>
+        </parameter>
+    </parameters>
+</component>

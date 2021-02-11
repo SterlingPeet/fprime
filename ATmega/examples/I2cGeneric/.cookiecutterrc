@@ -1,0 +1,44 @@
+# This file exists so you can easily regenerate your project.
+#
+# `cookiepatcher` is a convenient shim around `cookiecutter`
+# for regenerating projects (it will generate a .cookiecutterrc
+# automatically for any template). To use it:
+#
+#    pip install cookiepatcher
+#    cookiepatcher gh:sterlingpeet/cookiecutter-fprime-deployment I2cGeneric
+#
+# See:
+#    https://pypi.org/project/cookiepatcher
+#
+# Alternatively, you can run:
+#
+#    cookiecutter --overwrite-if-exists --config-file=I2cGeneric/.cookiecutterrc gh:sterlingpeet/cookiecutter-fprime-deployment
+
+default_context:
+
+    _template:                 '/Users/speet3/src/cookiecutter-fprime-deployment/'
+    arduino_log_stream:        'Serial'
+    component_dir_name:        'I2cExerciser'
+    component_explicit_common: ''
+    component_explicit_component_suffix: 'Component'
+    component_impl_suffix:     ''
+    component_instance_name:   'i2cExerciser'
+    component_kind:            'passive'
+    component_multiplatform_support: 'no'
+    component_name:            'I2cExerciser'
+    component_namespace:       'examples'
+    component_path_to_fprime_root: '../../..'
+    component_short_description: 'Example component to support I2cGeneric deployment.'
+    component_slug:            'I2cExerciser'
+    dep_short_description:     'Generic I2C deployment for testing I2C commands with arbitrary commanded data.'
+    deployment_dir_name:       'I2cGeneric'
+    deployment_display_name:   'I2C Generic Test'
+    deployment_parameter_support: 'yes'
+    deployment_path:           'ATmega/examples'
+    deployment_path_to_fprime_root: '../..'
+    deployment_slug:           'I2cGeneric'
+    email:                     'sterling.peet@ae.gatech.edu'
+    full_name:                 'Sterling Peet'
+    license:                   'MIT license'
+    startup_arduino_led_flash: 'yes'
+    startup_delay_msec:        '2000'
