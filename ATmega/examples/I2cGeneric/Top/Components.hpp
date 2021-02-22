@@ -12,7 +12,7 @@
 #include <Svc/ActiveRateGroup/ActiveRateGroupImpl.hpp>
 #include <Svc/CmdDispatcher/CommandDispatcherImpl.hpp>
 #include <Svc/GroundInterface/GroundInterface.hpp>
-#include <Svc/LinuxTime/LinuxTimeImpl.hpp>
+// #include <Svc/LinuxTime/LinuxTimeImpl.hpp>
 #include <Svc/RateGroupDriver/RateGroupDriverImpl.hpp>
 #include <Svc/TlmChan/TlmChanImpl.hpp>
 
@@ -30,7 +30,7 @@ extern Svc::ActiveLoggerImpl eventLogger;
 extern Svc::ActiveRateGroupImpl rateGroup10HzComp;
 extern Svc::CommandDispatcherImpl cmdDisp;
 extern Svc::GroundInterfaceComponentImpl groundIf;
-extern Svc::LinuxTimeImpl linuxTime;
+// extern Svc::LinuxTimeImpl linuxTime;
 extern Svc::RateGroupDriverImpl rateGroupDriverComp;
 extern Svc::TlmChanImpl chanTlm;
 extern examples::I2cExerciserComponent i2cExerciser;

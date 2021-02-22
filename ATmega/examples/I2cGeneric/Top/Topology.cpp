@@ -38,7 +38,7 @@ Svc::ActiveLoggerImpl eventLogger("eventLogger");
 ATmega::EePrmDbComponentImpl eePrmDb("eePrmDb");
 Svc::GroundInterfaceComponentImpl groundIf("groundIf");
 Drv::ATmegaSerialDriverComponentImpl uartDriver("uartDriver");
-Svc::LinuxTimeImpl linuxTime("linuxTime");
+// Svc::LinuxTimeImpl linuxTime("linuxTime");
 
 // Arduino specific components
 examples::I2cExerciserComponent i2cExerciser("i2cExerciser");

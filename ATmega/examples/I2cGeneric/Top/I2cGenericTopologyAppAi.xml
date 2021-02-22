@@ -29,7 +29,7 @@
     <instance namespace="Svc" name="eventLogger" type="ActiveLogger" base_id="301" base_id_window="20"/>
     <instance namespace="ATmega" name="eePrmDb" type="EePrmDb" base_id="401" base_id_window="20"/>
     <instance namespace="Svc" name="groundIf" type="GroundInterface" base_id="501" base_id_window="20"/>
-    <instance namespace="Svc" name="linuxTime" type="Time" base_id="601" base_id_window="20"/>
+<!--     <instance namespace="Svc" name="linuxTime" type="Time" base_id="601" base_id_window="20"/> -->
 
     <!-- Communications driver. May be swapped with other comm drivers like UART -->
 
@@ -185,34 +185,34 @@
 
     <!-- Time Connections -->
 
-    <connection name="prmDbTime">
+    <!-- <connection name="prmDbTime">
         <source component="eePrmDb" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
-    <connection name="eventLoggerTime">
+    </connection> -->
+    <!-- <connection name="eventLoggerTime">
         <source component="eventLogger" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
+    </connection> -->
     <!-- <connection name="rg1HzTime">
          <source component="rateGroup1HzComp" port="Time" type="Time" num="0"/>
          <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
     </connection> -->
-    <connection name="rg10HzTime">
+    <!-- <connection name="rg10HzTime">
          <source component="rateGroup10HzComp" port="Time" type="Time" num="0"/>
          <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
-    <connection name="cmdDispTime">
+    </connection> -->
+    <!-- <connection name="cmdDispTime">
         <source component="cmdDisp" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
+    </connection> -->
 <!--     <connection name="assertResetterTime">
         <source component="assertResetter" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
     </connection> -->
-    <connection name="groundIfTime">
+    <!-- <connection name="groundIfTime">
         <source component="groundIf" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
+    </connection> -->
 <!--     <connection name="rateGroupDriverCompTime">
         <source component="rateGroupDriverComp" port="Time" type="Time" num="0"/>
         <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
@@ -221,14 +221,14 @@
          <source component="hardwareRateDriver" port="Time" type="Time" num="0"/>
          <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
     </connection> -->
-    <connection name="i2cExerciserTime">
+    <!-- <connection name="i2cExerciserTime">
          <source component="i2cExerciser" port="Time" type="Time" num="0"/>
          <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
-    <connection name="uartDriverTime">
+    </connection> -->
+    <!-- <connection name="uartDriverTime">
          <source component="uartDriver" port="Time" type="Time" num="0"/>
          <target component="linuxTime" port="timeGetPort" type="Time" num="0"/>
-    </connection>
+    </connection> -->
 
     <!-- Linux Timer Connection -->
     <!--<connection name="LinuxTimer">
